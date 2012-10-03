@@ -1,0 +1,32 @@
+<style>
+  table {
+    font: 12px/1.5 sans-serif;
+    margin-bottom: 1em;
+  }
+  tr td {
+    padding: 2px;
+    border-bottom: 1px solid #eee;
+  }
+  td.check {
+    text-align: center;
+  }
+</style>
+<form action="" method="post">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <th>Text</th>
+      <% for n in 0..4 %>
+        <th>Cluster #<%= n %></th>
+      <% end %>
+    </tr>
+    <% @samples.each do |sample| %>
+      <tr>
+        <td><%= sample %></td>
+        <% for n in 0..4 %>
+          <td class="check"><input type="radio" name="labels[<%= sample.id %>]" value="<%= n %>" /></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+  <input type="submit" value="Classify!" />
+</form>

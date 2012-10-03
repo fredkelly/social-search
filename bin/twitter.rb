@@ -3,17 +3,12 @@ module Twitter
   # as well as storing/loading from file.
   def self.search(q, options = {})
     results = []
-    results_file = "./stored/#{options[:file]}.tweets"
+    results_file = result_file_for(options[:file])
     
-    begin
-      # try reading from stored
-      results = Marshal.load File.read(results_file)
-    rescue
-      # get results from twitter
-      options[:rpp] ||= 100
-      for page in 1..(options[:rpp]/100)
-        results += super(q, options.merge(:page => page, :rpp => 100)).results
-      end
+    # get results from twitter
+    options[:rpp] ||= 100
+    for page in 1..(options[:rpp]/100)
+      results += super(q, options.merge(:page => page, :rpp => 100)).results
     end
     
     # save to file?
@@ -25,6 +20,15 @@ module Twitter
     
     # return Tweets
     results
+  end
+  
+  # retrieve stored search
+  def self.load(name)
+    Marshal.load File.read(result_file_for(name))
+  end
+  
+  def self.result_file_for(name)
+    "./stored/#{name}.tweets"
   end
   
   class Tweet

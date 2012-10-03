@@ -1,0 +1,12 @@
+<ul>
+  <% @classifier.clusters.each_with_index do |cluster, n| %>
+    <li>
+      <h3>Cluster #<%= n %></h3>
+      <ul>
+        <% cluster.each do |sample| %>
+          <li><%= sample %></li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
