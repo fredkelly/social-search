@@ -1,8 +1,6 @@
 class SocialSearch < Sinatra::Base
   get '/' do
-    @results = Twitter.search('kate middleton', :rpp => 1000, :result_type => :recent, :file => 'test')
-    puts @results.size
-    @results.join('<br />')
+    erb :search
   end
   
   get '/manual' do
@@ -13,7 +11,7 @@ class SocialSearch < Sinatra::Base
   post '/manual' do
     samples = Twitter.load(params[:file])
     labels = Hash[*params[:labels].to_a.flatten.map(&:to_i)]
-    @classifier = ManualClassifier.new(samples, labels)
+    @clusterer = ManualClusterer.new(samples, labels)
     erb :results
   end
 end
