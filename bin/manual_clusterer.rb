@@ -1,11 +1,19 @@
 class ManualClusterer < Clusterer
-  def initialize(samples, labels)
-    n = labels.values.max + 1
-    @clusters = Array.new(n) { Array.new }
-    samples.each do |sample|
+  attr_reader :k
+  
+  def initialize(samples, k)
+    @k = k
+    @clusters ||= Array.new(@k) { Cluster.new }
+    super(samples)
+  end
+  
+  def cluster!(labels)
+    @samples.each do |sample|
       if labels.has_key?(sample.id)
-        @clusters[labels[sample.id]] << sample
+        @samples.delete(sample)
+        @clusters[labels[sample.id]].add(sample)
       end
     end
   end
+  
 end

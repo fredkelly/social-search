@@ -1,0 +1,44 @@
+body {
+  font: 12px/1.5 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Jamrul, sans-serif;
+  text-align: left;
+}
+table {
+  margin-bottom: 1em;
+}
+table caption {
+  font-size: 30px;
+}
+tr td {
+  padding: 2px;
+  border-bottom: 1px solid #eee;
+}
+td.check {
+  width: 75px;
+  text-align: center;
+}
+/* search form */
+#search {
+  text-align: center;
+  margin-top: 20%;
+}
+#search h1 {
+  font-size: 30px;
+  font-weight: normal;
+}
+#search input, #search button {
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 3px;
+}
+#search input {
+  border: 1px solid #ccc;
+  outline: none;
+}
+#search button {
+  font-weight: bold;
+  background: #393;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  text-transform: uppercase;
+}
