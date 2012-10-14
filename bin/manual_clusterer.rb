@@ -9,7 +9,7 @@ class ManualClusterer < Clusterer
   def cluster!(labels)
     @samples.each do |sample|
       if labels.has_key?(sample.id)
-        @clusters[n = labels[sample.id]][sample.id] = @samples.delete(sample)
+        @clusters[n = labels[sample.id]] << sample # @samples.delete(sample)
         puts "Moving \"#{sample}\" (#{sample.id}) to cluster ##{n}.."
       end
     end

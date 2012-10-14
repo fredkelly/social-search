@@ -13,7 +13,7 @@ class Clusterer
   
   # return all samples for testing
   def clustered_samples
-    @clusters.map(&:values).flatten
+    @clusters.map(&:to_a).flatten
   end
 
   def save(file_name = @file_name)

@@ -1,15 +1,10 @@
-# swap to extend Set?
+require 'set'
 
-class Cluster < Hash
-  attr_reader :centroid
-  
-  def initialize(centroid = nil)
-    @centroid = centroid
-    super
-  end
+class Cluster < Set
+  attr_accessor :centroid
   
   def urls
-    values.map(&:urls).flatten
+    to_a.map(&:urls).flatten
   end
-
+  
 end
