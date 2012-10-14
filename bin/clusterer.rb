@@ -11,13 +11,18 @@ class Clusterer
     raise NotImplementedError.new("Clustering not implemented!")
   end
   
+  def self.distance(a, b)
+    # distance measure
+    raise NotImplementedError.new("Distance measure not implemented!")
+  end
+  
   # return all samples for testing
   def clustered_samples
     @clusters.map(&:to_a).flatten
   end
 
   def save(file_name = @file_name)
-    @file_name ||= file_name
+    @file_name ||= file_name # should just be = ?
     File.open(@file_name, 'w') do |file|
       Marshal.dump(self, file)
     end
@@ -28,15 +33,27 @@ class Clusterer
       Marshal.load(file)
     end
   end
-    
-  # add comparison methods
-  # e.g. difference in clustering
-  # (for use with equal datasets)
   
-  def compare_to(clusterer)
-    # 0. delta[clusters.size] = 0
-    # 1. match up clusters based on the distance between centroids.
-    # 2. for each cluster
-    # 3.  delta += self.cluster \ new.cluster
+  def -(clusterer)
+    # deltas (set of wrongly classified tweets)
+    deltas = []
+    
+    # match up clusters based on the distance between centroids.
+    clusters.each_with_index do |t, i|
+      
+      # get 'most similar' cluster
+      comparable = clusterer.clusters.sort_by do |c|
+        # distance between centroids
+        self.class.distance(t.centroid, c.centroid)
+      end.first
+      
+      # record delta
+      deltas[i] = comparable - cluster
+    end
+    
+    # print incorrect classifications?
+    
+    # return average delta size
+    deltas.map(&:size).reduce(&:+).to_f / clustered_samples.size 
   end
 end
