@@ -19,3 +19,6 @@ doc/
 
 # object stash
 stash/
+
+# finder meta
+.DS_Store
