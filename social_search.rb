@@ -15,7 +15,7 @@ class SocialSearch < Sinatra::Base
     if File.exists?(params[:stash])
       @clusterer = Clusterer.load(params[:stash])
     else
-      samples = Twitter.search(params[:q], rpp: 100)
+      samples = Twitter.search(params[:q], rpp: 1000)
       @clusterer = ManualClusterer.new(samples, params[:k].to_i)
     end
     @clusterer.save(params[:stash])

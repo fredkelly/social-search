@@ -1,6 +1,6 @@
 <form action="" method="post">
   <table cellpadding="0" cellspacing="0">
-    <caption><%= @clusterer.samples.size %> Samples remaining..<%= @clusterer.samples.first.urls %></caption>
+    <caption><%= @clusterer.samples.size %> Samples remaining..</caption>
     <tr>
       <th>Text</th>
       <% for k in 0..@clusterer.k %>
@@ -17,5 +17,5 @@
     <% end %>
   </table>
   <input type="hidden" name="stash" value="<%= params[:stash] %>" />
-  <input type="submit" value="Classify!" />
+  <input type="submit" value="Classify &raquo;" />
 </form>
