@@ -18,6 +18,7 @@ module Twitter
     
     # pull results from twitter
     for page in 1..(options[:rpp]/MAX_RPP).ceil
+      puts "Getting page #{page} from Twitter.."
       results += super(q, options.merge(:page => page, :rpp => MAX_RPP)).results
     end
 

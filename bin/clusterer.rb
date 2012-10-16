@@ -20,18 +20,19 @@ class Clusterer
   def clustered_samples
     @clusters.map(&:to_a).flatten
   end
-
+  
   def save(file_name = @file_name)
-    @file_name ||= file_name # should just be = ?
+    @file_name = file_name # update in case changed
     File.open(@file_name, 'w') do |file|
       Marshal.dump(self, file)
     end
   end
   
+  # load from file or return nil
   def self.load(file_name)
     File.open(file_name, 'r') do |file|
       Marshal.load(file)
-    end
+    end rescue nil
   end
   
   def -(clusterer)
@@ -44,7 +45,8 @@ class Clusterer
       # get 'most similar' cluster
       comparable = clusterer.clusters.sort_by do |c|
         # distance between centroids
-        self.class.distance(t.centroid, c.centroid)
+        # using distance measure for given clusterer
+        clusterer.class.distance(t.centroid, c.centroid)
       end.first
       
       # record delta
