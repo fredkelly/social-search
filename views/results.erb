@@ -2,8 +2,8 @@
   <% @clusterer.clusters.each_with_index do |cluster, n| %>
     <li>
       <h3>Cluster #<%= n %> (<%= cluster.size %> nodes)</h3>
+      <p><a href="<%= cluster.urls.first %>">Read more..</a></p>
       <ul>
-        <a href="<%= cluster.urls.first %>">Read more..</a>
         <% cluster.each do |sample| %>
           <li><%= sample %></li>
         <% end %>

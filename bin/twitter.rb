@@ -32,7 +32,7 @@ module Twitter
     # WIP
     # chunks text into tokens
     def tokens
-      @tokens ||= text.split
+      @tokens ||= text.downcase.split
     end
     
     def has_url?

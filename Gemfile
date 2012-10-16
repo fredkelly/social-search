@@ -10,3 +10,6 @@ end
 
 # For interacting with the Twitter API
 gem 'twitter'
+
+# Levenshtein distance measure
+gem 'levenshtein'

@@ -7,10 +7,10 @@ class SocialSearch < Sinatra::Base
   get '/search' do
      # get new samples from twitter, and create clusterer
     samples = Twitter.search(params[:q], rpp: 1000)
-    @clusterer = Clusterer.new(samples)
+    @clusterer = KMeans.new(samples)
     
     # perform clustering
-    #@clusterer.cluster!
+    @clusterer.cluster!
     
     erb :results
   end

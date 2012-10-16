@@ -4,6 +4,7 @@ GEM
     diff-lcs (1.1.3)
     faraday (0.8.4)
       multipart-post (~> 1.1)
+    levenshtein (0.2.2)
     multi_json (1.3.6)
     multipart-post (1.1.5)
     rack (1.4.1)
@@ -32,6 +33,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  levenshtein
   rspec
   sinatra
   twitter
