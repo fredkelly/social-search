@@ -39,15 +39,16 @@ class Clusterer
     # deltas (set of wrongly classified tweets)
     deltas = []
     
+    ext_clusters = clusterer.clusters.clone
+    
     # match up clusters based on the distance between centroids.
     clusters.each_with_index do |t, i|
-      
-      # get 'most similar' cluster
-      comparable = clusterer.clusters.sort_by do |c|
+      # remove 'most similar' cluster
+      comparable = ext_clusters.sort_by do |c|
         # distance between centroids
         # using distance measure for given clusterer
         clusterer.class.distance(t.centroid, c.centroid)
-      end.first
+      end.shift
       
       # record delta
       deltas[i] = comparable - cluster
