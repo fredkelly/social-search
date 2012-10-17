@@ -26,9 +26,13 @@ choose do |menu|
 end
 
 # init the candidate with verbose ON..
-clustering = candidate.new(samples, standard.options.merge(:verbose => true))
+clustering = candidate.new(samples, standard.options.merge(:verbose => (ARGV.first == '-v')))
 
 # perform clustering!
 clustering.cluster!
 
-puts standard.compare_to(clustering)
+# compare clusterings
+similarity = standard.compare_to(clustering)
+
+puts   "----------------"
+printf "%.2f%% accurate!\n", similarity * 100

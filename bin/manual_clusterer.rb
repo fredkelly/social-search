@@ -42,31 +42,25 @@ class ManualClusterer < Clusterer
   # then compares the nodes in matched clusters
   # to determine intersection/difference.
   #
-  # @param [Clusterer] clusterer Another <tt>Clusterer</tt> instance to compare to.
+  # @param [Clusterer] candidate Another <tt>Clusterer</tt> instance to compare to.
   #
-  def compare_to(clusterer)
-    # deltas (set of wrongly classified tweets)
+  def compare_to(candidate)
     deltas = []
     
-    ext_clusters = clusterer.clusters.clone
-    
-    # match up clusters based on the distance between centroids.
-    clusters.each_with_index do |t, i|
-      # remove 'most similar' cluster
-      comparable = ext_clusters.sort_by do |c|
-        # distance between centroids
-        # using distance measure for given clusterer
-        clusterer.class.distance(t.centroid, c.centroid)
-      end.shift
+    # match up most similar clusters in candidate
+    self.clusters.each_with_index do |src, i|
+      # only look at non-empty clusters
+      if src.size > 0
+        # most similar by size of intersection
+        sim = candidate.clusters.sort_by{|cand| (src & cand).size }.pop
       
-      # record delta
-      deltas[i] = comparable - cluster
+        # work out delta
+        deltas[i] = (src & sim).size.to_f / src.size
+      end
     end
     
-    # print incorrect classifications?
-    
-    # return average delta size
-    deltas.map(&:size).reduce(&:+).to_f / clustered_samples.size 
+    # average delta
+    deltas.reduce(&:+).to_f / deltas.size
   end
   
 end

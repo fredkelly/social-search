@@ -8,7 +8,7 @@ require 'set'
 class Cluster
   
   extend Forwardable
-  def_delegators :@samples, :size, :<<, :add, :map, :each, :to_a
+  def_delegators :@samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+
   
   attr_accessor :centroid, :samples
   
