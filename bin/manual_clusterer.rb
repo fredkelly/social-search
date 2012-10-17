@@ -54,7 +54,7 @@ class ManualClusterer < Clusterer
         # most similar by size of intersection
         sim = candidate.clusters.sort_by{|cand| (src & cand).size }.pop
       
-        # work out delta
+        # %age of candidate cluster which is 'correct'
         deltas[i] = (src & sim).size.to_f / src.size
       end
     end
