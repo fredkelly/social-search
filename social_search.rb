@@ -1,13 +1,23 @@
+# <tt>Sinatra::Base</tt> application provides
+# the HTTP interface for the application.
 class SocialSearch < Sinatra::Base
   
+  # @method index
+  # +root+ or +index+ route, renders the search form.
   get '/' do
     erb :search
   end
   
+  # @method search
+  # +search+ operation, calls the clustering
+  # algorithm using the specified query term.
+  #
+  # @param [String] q The query string, e.g. 'Olympics 2012'
+  #
   get '/search' do
      # get new samples from twitter, and create clusterer
-    samples = Twitter.search(params[:q], rpp: 1000)
-    @clusterer = KMeans.new(samples)
+    samples = Twitter.search(params[:q], rpp: 100)
+    @clusterer = KMeans.new(samples, :k => 5)
     
     # perform clustering
     @clusterer.cluster!
@@ -15,12 +25,23 @@ class SocialSearch < Sinatra::Base
     erb :results
   end
   
+  # @method manual_form
+  # Provides interface to manual clustering for
+  # testing/development purposes only.
+  #
+  # Renders the manual classification view
+  # until all samples have been clustered.
+  #
+  # @param [String] q The query string, e.g. 'Olympics 2012'
+  # @param [Fixnum] k K value to supply to <tt>ManualClusterer</tt>.
+  # @param [String] stash Local file path to save classification data to.
+  #
   get '/manual' do
     # if we can't load the existing clusters..
     unless @clusterer = ManualClusterer.load(params[:stash])
       # get new samples from twitter, and create clusters
       samples = Twitter.search(params[:q], rpp: 1000)
-      @clusterer = ManualClusterer.new(samples, params[:k].to_i - 1)
+      @clusterer = ManualClusterer.new(samples, :k => params[:k].to_i - 1)
     end
     
     # save back to specified path
@@ -30,6 +51,14 @@ class SocialSearch < Sinatra::Base
     erb @clusterer.samples.empty? ? :results : :manual
   end
   
+  # @method manual_submit
+  # Recieves array of truth labels from POST request.
+  # Loads up the clusterer instance from given path
+  # and applies the supplied labels to the contained samples.
+  #
+  # @param [Fixnum] k K value to supply to <tt>ManualClusterer</tt>.
+  # @param [String] stash Local file path to save classification data to.
+  #
   post '/manual' do        
     # reload the saved cluster obj
     @clusterer = ManualClusterer.load(params[:stash])
@@ -45,7 +74,13 @@ class SocialSearch < Sinatra::Base
   
   private
   
-  # convert key/values to integers
+  # @method to_ints
+  # Helper method to convert key/values to integers.
+  # e.g. from params[:labels], each key and value
+  # is converted to an integet using +to_i+ then rehashed.
+  #
+  # @param [Hash] hash The hash to be converted.
+  #
   def to_ints(hash)
     Hash[*hash.to_a.flatten.map(&:to_i)]
   end

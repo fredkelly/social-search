@@ -1,78 +1,102 @@
-require 'levenshtein'
-require 'benchmark'
-
+# Implements the K-means[link:http://en.wikipedia.org/wiki/K-means_clustering] clustering algorithm.
+# using Levenshtein distance measure and
+# Pseudo string generation for centroid recentring.
 class KMeans < Clusterer
-  
-  def initialize(samples, k = 5)
+  # Creates a new instance of the K-means
+  # clustering algorithm using supplied
+  # data samples and k value.
+  #
+  # Picks k centroids randomly from
+  # supplied data samples.
+  #
+  # @param [Array] samples Array of <tt>Twitter::Tweet</tt> instances.
+  #
+  # @option options [Fixnum] k Number of clusters.
+  #
+  def initialize(samples, options = {})    
     # randomly select centroids
-    @clusters ||= samples.sample(@k = k).map { |c| Cluster.new(c) }
-    super(samples)
+    @clusters ||= samples.sample(options[:k]).map { |c| Cluster.new(c) }
+    
+    super(samples, options)
   end
   
-  def cluster!
-    puts "Clustering.."
-    
-    while true
+  # Performs the cluster assignment,
+  # each sample is added to the cluster
+  # with the closest centroid.
+  #
+  # Centring will repeat until delta
+  # threshold is reached.
+  #
+  def cluster!    
+    for i in 0..10 # maximum of 10 iterations
+      debug "Beginning k-means iteration #{i}.."
       
       # for each sample
       @samples.each do |sample|
         # add to the closest cluster
-        @clusters.sort_by{|c| self.class.distance(c.centroid.text, sample.text)}.first << sample # remove?
+        @clusters.sort_by{|c| self.class.distance(c.centroid.tokens, sample.tokens)}.first << sample # remove?
       end
       
       # recentre centroids
       max_delta = -Float::INFINITY
-      time = Benchmark.measure do
-        @clusters.each do |cluster|
-          delta = self.class.centre!(cluster)
+      @clusters.each do |cluster|
+        delta = self.class.centre!(cluster)
         
-          if delta > max_delta
-            max_delta = delta
-          end
+        if delta > max_delta
+          max_delta = delta
         end
       end
       
-      puts "Re-centring time: #{time}"
-      puts "max_delta = #{max_delta}"
+      debug "max_delta = #{max_delta}"
       
       # exit condition
-      if max_delta > 0.9
+      if max_delta > 0.95
         break
       end
-
     end
-    
   end
   
-  # re-centre given cluster's centroid
-  def self.centre!(cluster)
+  # Re-centres given cluster's centroid
+  # uses word occurance to re-generate
+  # a new string to act as the new centroid
+  #
+  # Implemented as a static method within
+  # the clusterer class rather than a method
+  # on the centroid in order to keep all
+  # aspects of classification (algorithms etc)
+  # in a single class/file.
+  #
+  # @param [Cluster] cluster The cluster to be re-centred.
+  #
+  def self.centre!(cluster)    
+    # save current centroid
     old_centroid = cluster.centroid
     
     # take most occuring words
     words = {}
-    time = Benchmark.measure do
-      cluster.each do |sample|
-        sample.tokens.each do |token|
-          words[token] = words[token].to_i + 1
-        end
+    cluster.each do |sample|
+      sample.tokens.each do |token|
+        words[token] = words[token].to_i + 1 if token.size > 3 # ignore shorter words
       end
     end
-    
-    puts "Centroid creation time: #{time}"
-    
+        
     # create new string
-    target = Hash[words.sort_by{|k,v| -v}].keys[0..10].join(' ')
-    
-    puts "Creating new centroid: #{target}"
-    
-    # find closest sample and assign
-    cluster.centroid = cluster.samples.sort_by{|sample| distance(sample.text, target)}.first
-    
-    distance(old_centroid.text, cluster.centroid.text)
+    cluster.centroid = Centroid.new(words.sort_by{|k,v| v}[-[10, words.size].min..-1].map(&:first))
+        
+    # return delta
+    distance(old_centroid.tokens, cluster.centroid.tokens)
   end
   
+  # Returns a float between 0.0 and 1.0
+  # representing the token difference
+  # between token arrays a and b.
+  #
+  # @param [Array] a First tokens.
+  # @param [Array] b Second tokens.
+  #
   def self.distance(a, b)
-    Levenshtein.normalized_distance(a, b)
+    #Levenshtein.normalized_distance(a, b)
+    1.0 - (a & b).size.to_f / (a + b).size
   end
   
 end
