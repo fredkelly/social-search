@@ -15,6 +15,9 @@ class Clusterer
   # @option options [Boolean] verbose Whether to show debugging info.
   #
   def initialize(samples, options = {})
+    # check valid samples array provided
+    raise ArgumentError.new("Valid samples required.") if samples.nil? || !samples.is_a?(Array)
+    
     @options  = options
     @samples  = samples
     @clusters ||= [] # don't overwrite existing clusters
@@ -83,7 +86,7 @@ class Clusterer
   def self.load(file_name)
     File.open(file_name, 'r') do |file|
       Marshal.load(file)
-    end rescue nil
+    end
   end
   
   # Outputs debugging information if verbose is on.
@@ -102,6 +105,14 @@ class Clusterer
   # Easy accessor for options[:k]
   def k
     @options[:k] if @options.has_key?(:k)
+  end
+  
+  # Define equality based on clusters and sample set.
+  #
+  # @param [Clusterer] other Clusterer instance to compare to.
+  #
+  def ==(other)
+    @samples == other.samples && @clusters == other.clusters
   end
   
 end
