@@ -18,3 +18,6 @@ gem 'levenshtein'
 
 # Stop words for tokenisation
 gem 'stopwords'
+
+# for accessing Google API
+gem 'httparty'
