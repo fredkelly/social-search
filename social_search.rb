@@ -41,7 +41,7 @@ class SocialSearch < Sinatra::Base
     unless @clusterer = ManualClusterer.load(params[:stash])
       # get new samples from twitter, and create clusters
       samples = Twitter.search(params[:q], rpp: 100)
-      @clusterer = ManualClusterer.new(samples, :k => params[:k].to_i - 1)
+      @clusterer = ManualClusterer.new(samples, :k => params[:k].to_i)
     end
     
     # save back to specified path
