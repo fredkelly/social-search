@@ -1,13 +1,13 @@
 <form action="" method="post">
   <table cellpadding="0" cellspacing="0">
-    <caption><%= @clusterer.samples.size %> Samples remaining..</caption>
+    <caption><%= @samples.size %> Samples remaining..</caption>
     <tr>
       <th>Text</th>
       <% for k in 0..@clusterer.k %>
         <th>Cluster #<%= k %></th>
       <% end %>
     </tr>
-    <% @clusterer.samples.each do |sample| %>
+    <% @samples.each do |sample| %>
       <tr>
         <td><%= sample %></td>
         <% for k in 0..@clusterer.k %>

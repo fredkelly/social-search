@@ -21,7 +21,7 @@ puts "Loaded #{standard.class} instance with #{samples.size} clustered samples..
 # select classifier to test
 candidate = nil
 choose do |menu|
-  menu.choices(*Clusterer.descendants) {|klass| candidate = klass}
+  menu.choices(*Clusterer.descendants - [ManualClusterer]) {|klass| candidate = klass}
   menu.prompt = "Select Clusterer candidate from above.."
 end
 

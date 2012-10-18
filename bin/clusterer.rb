@@ -12,6 +12,8 @@ class Clusterer
   #
   # @param [Array] samples Array of <tt>Twitter::Tweet</tt> instances.
   #
+  # @option options [Boolean] verbose Whether to show debugging info.
+  #
   def initialize(samples, options = {})
     @options  = options
     @samples  = samples
@@ -52,7 +54,13 @@ class Clusterer
   # Allows direct comparisions between two
   # classifications based on the same sample set.
   def clustered_samples
-    @clustered_samples ||= @clusters.map(&:to_a).flatten
+    @clusters.map(&:to_a).flatten
+  end
+  
+  # Helper method for returning unclassified samples
+  # for use in ManualClusterer web UI.
+  def remaining_samples
+    samples - clustered_samples
   end
   
   # Saves <tt>Clusterer</tt> instance directly
@@ -93,6 +101,7 @@ class Clusterer
   
   # Easy accessor for options[:k]
   def k
-    @options[:k]
+    @options[:k] if @options.has_key?(:k)
   end
+  
 end
