@@ -35,4 +35,8 @@ class Cluster
     urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
   end
   
+  def page
+    @page ||= (Page.get(url) rescue nil) unless url.nil?
+  end
+  
 end

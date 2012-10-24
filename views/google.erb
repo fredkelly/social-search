@@ -1,0 +1,8 @@
+<ol>
+  <% @results.each_with_index do |result, n| %>
+    <li>
+      <h3><a href="<%= result.url %>"><%= result.title %></a></h3>
+      <p><%= result.description %></p>
+    </li>
+  <% end %>
+</ol>

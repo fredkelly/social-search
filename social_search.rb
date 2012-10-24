@@ -8,6 +8,14 @@ class SocialSearch < Sinatra::Base
     erb :search
   end
   
+  # @method google
+  # demonstration of the Google 'white label' system.
+  get '/google' do
+    @results = Google.search(params[:q])
+    
+    erb :google # make generic!
+  end
+  
   # @method search
   # +search+ operation, calls the clustering
   # algorithm using the specified query term.

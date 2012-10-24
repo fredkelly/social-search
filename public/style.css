@@ -42,3 +42,6 @@ td.check {
   cursor: pointer;
   text-transform: uppercase;
 }
+ol {
+  list-style: none;
+}

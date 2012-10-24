@@ -21,3 +21,6 @@ gem 'stopwords'
 
 # for accessing Google API
 gem 'httparty'
+
+# for parsing twitter links
+gem 'nokogiri'

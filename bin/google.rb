@@ -17,7 +17,18 @@ class Google
   # @param [String] q The search term.
   #
   def self.search(q)
-    get('/search/web', query: { :q => q })
+    parse_response get('/search/web', query: { :q => q })
+  end
+  
+  # Parses the <tt>HTTParty::Response</tt> instance
+  # into an array of <tt>Result</tt> instances.
+  #
+  # @param [HTTParty::Response] response The response object.
+  #
+  def self.parse_response(response)
+    response.parsed_response['responseData']['results'].map do |r|
+      Result.new(r['title'], r['url'], r['content'])
+    end
   end
   
 end
