@@ -102,9 +102,9 @@ class Clusterer
     ObjectSpace.each_object(Class).select { |klass| klass < self }
   end
   
-  # Easy accessor for options[:k]
-  def k
-    @options[:k] if @options.has_key?(:k)
+  # Easy accessor for options[]
+  def method_missing(m, *args, &block) 
+    @options[m] if @options.has_key?(m)
   end
   
   # Define equality based on clusters and sample set.

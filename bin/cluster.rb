@@ -1,3 +1,5 @@
+# specific dependencies
+require './bin/result.rb'
 require 'forwardable'
 require 'set'
 
@@ -5,12 +7,12 @@ require 'set'
 # by an instance of Clusterer. Members are
 # stored in the +samples+ instance variable, common
 # Set methods are also delagated to it directly.
-class Cluster
+class Cluster < Result
+  attr_accessor :centroid, :samples
   
   extend Forwardable
-  def_delegators :@samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+
-  
-  attr_accessor :centroid, :samples
+  def_delegators :samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+
+  def_delegators :page, :title, :description, :nil?
   
   # initializes a new cluster, usually called
   # to create an empty Set at the start of the
@@ -34,6 +36,8 @@ class Cluster
   def url
     urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
   end
+  
+  private
   
   def page
     @page ||= (Page.get(url) rescue nil) unless url.nil?

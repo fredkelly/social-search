@@ -2,6 +2,11 @@
 # the HTTP interface for the application.
 class SocialSearch < Sinatra::Base
   
+  # ENV['RACK_ENV'] specific configuration
+  configure :test, :development do
+    IS_VERBOSE = true
+  end
+  
   # @method index
   # +root+ or +index+ route, renders the search form.
   get '/' do
@@ -13,7 +18,7 @@ class SocialSearch < Sinatra::Base
   get '/google' do
     @results = Google.search(params[:q])
     
-    erb :google # make generic!
+    erb :results # make generic!
   end
   
   # @method search
@@ -23,12 +28,20 @@ class SocialSearch < Sinatra::Base
   # @param [String] q The query string, e.g. 'Olympics 2012'
   #
   get '/search' do
-     # get new samples from twitter, and create clusterer
-    samples = Twitter.search(params[:q], rpp: 100)
-    @clusterer = KMeans.new(samples, :k => 5)
+    @results = k_means(params[:q])
     
-    # perform clustering
-    @clusterer.cluster!
+    erb :results
+  end
+  
+  # @method mixed
+  # calls two search providers for a given
+  # query and combines the results into a
+  # single results set (randomly).
+  #
+  # @param [String] q The query string, e.g. 'Olympics 2012'
+  #
+  get '/mixed' do
+    @results = k_means(params[:q]) + Google.search(params[:q])
     
     erb :results
   end
@@ -70,7 +83,7 @@ class SocialSearch < Sinatra::Base
   # @param [Fixnum] k K value to supply to <tt>ManualClusterer</tt>.
   # @param [String] stash Local file path to save classification data to.
   #
-  post '/manual' do        
+  post '/manual' do
     # reload the saved cluster obj
     @clusterer = ManualClusterer.load(params[:stash])
     
@@ -84,6 +97,29 @@ class SocialSearch < Sinatra::Base
   end
   
   private
+  
+  # @method k_means
+  # Helper method to do the heavy lifting
+  # when calling the KMeans clusterer.
+  #
+  # @param [String] query The query string, e.g. 'Olympics 2012'
+  #
+  def k_means(query)
+    # get new samples from twitter, and create clusterer
+    samples = Twitter.search(query, rpp: 100)
+    
+    clusterer = KMeans.new(samples,
+                 :k => 5,
+                 :threshold => 0.95,
+                 :verbose => IS_VERBOSE
+               )
+    
+    # perform clustering
+    clusterer.cluster!
+    
+    # clusters are results
+    clusterer.clusters
+  end
   
   # @method to_ints
   # Helper method to convert key/values to integers.

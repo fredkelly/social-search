@@ -24,3 +24,6 @@ gem 'httparty'
 
 # for parsing twitter links
 gem 'nokogiri'
+
+# pretty printing
+gem 'awesome_print'

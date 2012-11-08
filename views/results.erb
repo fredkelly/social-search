@@ -1,10 +1,8 @@
 <ol>
-  <% @clusterer.clusters.each_with_index do |result, n| %>
-    <% unless result.page.nil? %>
-      <li>
-        <h3><a href="<%= result.url %>"><%= result.page.title %></a></h3>
-        <p><%= result.page.description %></p>
-      </li>
-    <% end %> 
+  <% @results.each_with_index do |result, n| %>
+    <li>
+      <h3><a href="<%= result.url %>"><%= result.title %></a></h3>
+      <p><%= result.description %></p>
+    </li>
   <% end %>
 </ol>

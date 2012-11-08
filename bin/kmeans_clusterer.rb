@@ -16,6 +16,7 @@ class KMeans < Clusterer
   def initialize(samples, options = {})    
     # randomly select centroids
     @clusters ||= samples.sample(options[:k]).map { |c| Cluster.new(c) }
+    @threshold = options[:threshold] || 0.95
     
     super(samples, options)
   end
@@ -29,7 +30,7 @@ class KMeans < Clusterer
   #
   def cluster!    
     for i in 0..10 # maximum of 10 iterations
-      debug "Beginning k-means iteration #{i}.."
+      debug "Beginning k-means iteration #{i}:"
       
       # for each sample
       @samples.each do |sample|
@@ -50,7 +51,7 @@ class KMeans < Clusterer
       debug "max_delta = #{max_delta}"
       
       # exit condition
-      if max_delta > 0.95
+      if max_delta > @threshold
         break
       end
     end
