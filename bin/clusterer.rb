@@ -115,4 +115,13 @@ class Clusterer
     @samples == other.samples && @clusters == other.clusters
   end
   
+  
+  # Returns clusters that are 'usable' results,
+  # i.e. they have a url, title & description.
+  def results
+    clusters.select do |result|
+      result.is_valid?
+    end
+  end
+  
 end

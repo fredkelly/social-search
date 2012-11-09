@@ -11,7 +11,7 @@ class Cluster < Result
   attr_accessor :centroid, :samples
   
   extend Forwardable
-  def_delegators :samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+
+  def_delegators :samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+, :empty?
   def_delegators :page, :title, :description, :nil?
   
   # initializes a new cluster, usually called
@@ -35,12 +35,6 @@ class Cluster < Result
   # WIP; Get the most frequently occuring URL.
   def url
     urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
-  end
-  
-  private
-  
-  def page
-    @page ||= (Page.get(url) rescue nil) unless url.nil?
   end
   
 end

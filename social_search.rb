@@ -111,14 +111,15 @@ class SocialSearch < Sinatra::Base
     clusterer = KMeans.new(samples,
                  :k => 5,
                  :threshold => 0.95,
+                 :iterations => 1,
                  :verbose => IS_VERBOSE
                )
     
     # perform clustering
     clusterer.cluster!
     
-    # clusters are results
-    clusterer.clusters
+    # fetch results
+    clusterer.results
   end
   
   # @method to_ints

@@ -10,7 +10,7 @@ module Twitter
   DEFAULT_OPTS = {
     :rpp => MAX_RPP,
     :lang => :en,
-    :result_type => :recent,
+    :result_type => :mixed, # :mixed, :recent or :popular
     :include_entities => true
   }
   
