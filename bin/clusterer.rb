@@ -121,7 +121,7 @@ class Clusterer
   def results
     clusters.select do |result|
       result.is_valid?
-    end
+    end.sort{|a,b| b.size <=> a.size} # bit hacky, move elsewhere?
   end
   
 end
