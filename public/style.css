@@ -46,6 +46,6 @@ ol {
   list-style: none;
 }
 /* quick cover-up for Google results */
-b {
+p b {
   font-weight: normal;
 }
