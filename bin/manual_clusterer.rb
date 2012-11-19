@@ -1,5 +1,3 @@
-require './clusterer.rb'
-
 # Provides a method of manually alocating
 # samples to a given cluster via the web
 # interface implemented by *views/manual.erb*
