@@ -1,6 +1,8 @@
 # <tt>Sinatra::Base</tt> application provides
 # the HTTP interface for the application.
 class SocialSearch < Sinatra::Base
+  # turn on debugging info?
+  IS_VERBOSE = false
   
   # ENV['RACK_ENV'] specific configuration
   configure :test, :development do
