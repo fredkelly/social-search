@@ -45,3 +45,7 @@ td.check {
 ol {
   list-style: none;
 }
+/* quick cover-up for Google results */
+b {
+  font-weight: normal;
+}
