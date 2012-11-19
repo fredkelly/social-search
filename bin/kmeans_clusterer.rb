@@ -1,4 +1,4 @@
-require './bin/clusterer.rb'
+require './clusterer.rb'
 
 # Implements the K-means[link:http://en.wikipedia.org/wiki/K-means_clustering] clustering algorithm.
 # using Levenshtein distance measure and

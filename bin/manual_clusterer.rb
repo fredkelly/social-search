@@ -1,4 +1,4 @@
-require './bin/clusterer.rb'
+require './clusterer.rb'
 
 # Provides a method of manually alocating
 # samples to a given cluster via the web
