@@ -6,6 +6,7 @@ gem 'sinatra', require: 'sinatra/base'
 # RSpec for testing
 group :test, :development do
   gem 'rspec'
+  gem 'ruby-prof'
   # For timing execution time
   gem 'highline', require: 'highline/import'
 end

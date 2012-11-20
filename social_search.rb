@@ -1,12 +1,15 @@
+require 'ruby-prof'
+
 # <tt>Sinatra::Base</tt> application provides
 # the HTTP interface for the application.
 class SocialSearch < Sinatra::Base
-  # turn on debugging info?
-  IS_VERBOSE = false
   
   # ENV['RACK_ENV'] specific configuration
   configure :test, :development do
     IS_VERBOSE = true
+  end
+  configure :production do
+    IS_VERBOSE = false
   end
   
   # @method index
@@ -118,7 +121,14 @@ class SocialSearch < Sinatra::Base
                )
     
     # perform clustering
-    clusterer.cluster!
+    result = RubyProf.profile do
+      clusterer.cluster!
+    end
+    
+    if IS_VERBOSE
+      printer = RubyProf::FlatPrinter.new(result)
+      printer.print(STDOUT)
+    end
     
     # fetch results
     clusterer.results

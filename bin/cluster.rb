@@ -12,7 +12,7 @@ class Cluster < Result
   
   extend Forwardable
   def_delegators :samples, :size, :<<, :add, :map, :each, :to_a, :&, :-, :+, :empty?
-  def_delegators :page, :title, :description, :nil?
+  def_delegators :page, :title, :description
   
   # initializes a new cluster, usually called
   # to create an empty Set at the start of the
@@ -29,12 +29,17 @@ class Cluster < Result
   # Collects all the URLs belonging to Tweets
   # contained in the cluster (returned as strings).
   def urls
-    samples.map(&:urls).flatten
+    @urls ||= samples.map(&:urls).flatten
   end
   
   # WIP; Get the most frequently occuring URL.
   def url
-    urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
+    @url ||= urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
   end
   
+  private
+  
+  def page
+    @page ||= Page.get(url)
+  end
 end

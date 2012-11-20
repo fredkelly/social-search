@@ -16,4 +16,6 @@ require './bin/html_parser.rb'
 require './bin/page.rb'
 
 require './social_search.rb'
+
+# run the app
 run SocialSearch

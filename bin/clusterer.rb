@@ -117,10 +117,10 @@ class Clusterer
   
   
   # Returns clusters that are 'usable' results,
-  # i.e. they have a url, title & description.
+  # i.e. they have a url
   def results
     clusters.select do |result|
-      result.is_valid?
+      !result.url.nil?
     end.sort{|a,b| b.size <=> a.size} # bit hacky, move elsewhere?
   end
   
