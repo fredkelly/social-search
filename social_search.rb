@@ -1,5 +1,3 @@
-require 'ruby-prof'
-
 # <tt>Sinatra::Base</tt> application provides
 # the HTTP interface for the application.
 class SocialSearch < Sinatra::Base
@@ -121,14 +119,7 @@ class SocialSearch < Sinatra::Base
                )
     
     # perform clustering
-    result = RubyProf.profile do
-      clusterer.cluster!
-    end
-    
-    if IS_VERBOSE
-      printer = RubyProf::FlatPrinter.new(result)
-      printer.print(STDOUT)
-    end
+    clusterer.cluster!
     
     # fetch results
     clusterer.results
