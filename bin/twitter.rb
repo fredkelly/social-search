@@ -1,5 +1,8 @@
 require 'stopwords'
 
+# Extends the <tt>Twitter</tt> gem to allow retrieval
+# of > 100 tweets (by repeatedly querying the API,
+# updating the <tt>?page=</tt> param with each call).
 module Twitter
   
   # Max items per request as specified by Twitter's API.
