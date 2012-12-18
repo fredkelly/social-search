@@ -13,6 +13,7 @@ class SocialSearch < Sinatra::Base
   # @method index
   # +root+ or +index+ route, renders the search form.
   get '/' do
+    @provider = params[:provider] || :search
     erb :search
   end
   
