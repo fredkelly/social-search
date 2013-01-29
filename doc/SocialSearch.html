@@ -311,14 +311,14 @@ specified query term.</p>
       <pre class="lines">
 
 
-21
 22
 23
 24
-25</pre>
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'social_search.rb', line 21</span>
+      <pre class="code"><span class="info file"># File 'social_search.rb', line 22</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/google</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='ivar'>@results</span> <span class='op'>=</span> <span class='const'>Google</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -358,12 +358,14 @@ specified query term.</p>
 
 15
 16
-17</pre>
+17
+18</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'social_search.rb', line 15</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='ivar'>@provider</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:provider</span><span class='rbracket'>]</span> <span class='op'>||</span> <span class='symbol'>:search</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:search</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -453,7 +455,6 @@ clustered.</p>
       <pre class="lines">
 
 
-63
 64
 65
 66
@@ -469,10 +470,11 @@ clustered.</p>
 76
 77
 78
-79</pre>
+79
+80</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'social_search.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'social_search.rb', line 64</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/manual</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='comment'># if we can't load the existing clusters..
@@ -560,7 +562,6 @@ samples.</p>
       <pre class="lines">
 
 
-89
 90
 91
 92
@@ -571,10 +572,11 @@ samples.</p>
 97
 98
 99
-100</pre>
+100
+101</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'social_search.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'social_search.rb', line 90</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/manual</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='comment'># reload the saved cluster obj
@@ -640,14 +642,14 @@ a single results set (randomly).</p>
       <pre class="lines">
 
 
-46
 47
 48
 49
-50</pre>
+50
+51</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'social_search.rb', line 46</span>
+      <pre class="code"><span class="info file"># File 'social_search.rb', line 47</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/mixed</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='ivar'>@results</span> <span class='op'>=</span> <span class='id identifier rubyid_k_means'>k_means</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>+</span> <span class='const'>Google</span><span class='period'>.</span><span class='id identifier rubyid_search'>search</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -706,14 +708,14 @@ specified query term.</p>
       <pre class="lines">
 
 
-33
 34
 35
 36
-37</pre>
+37
+38</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'social_search.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'social_search.rb', line 34</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/search</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
   <span class='ivar'>@results</span> <span class='op'>=</span> <span class='id identifier rubyid_k_means'>k_means</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -730,7 +732,7 @@ specified query term.</p>
 </div>
 
     <div id="footer">
-  Generated on Tue Nov 20 16:25:47 2012 by
+  Generated on Tue Jan 29 17:28:55 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.3 (ruby-1.9.3).
 </div>

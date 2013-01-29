@@ -129,7 +129,7 @@ class SocialSearch < Sinatra::Base
   # @method to_ints
   # Helper method to convert key/values to integers.
   # e.g. from params[:labels], each key and value
-  # is converted to an integet using +to_i+ then rehashed.
+  # is converted to an integer using +to_i+ then rehashed.
   #
   # @param [Hash] hash The hash to be converted.
   #
