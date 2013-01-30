@@ -1,3 +1,16 @@
 // Place all the styles related to the Search controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+  font: 12px/1.5 sans-serif;
+}
+
+ol {
+  h3 {
+    margin: 0;
+  }
+  cite {
+    color: #093;
+  }
+}

@@ -5,7 +5,8 @@ class SearchController < ApplicationController
   # Creates a new search belonging to the current session.
   # redirect to results page?
   def create
-    @search = current_session.searches.create(query: params[:query])
+    # TODO: limit based on created_at
+    @search = current_session.searches.first_or_create(query: params[:query])
     
     render :results
   end

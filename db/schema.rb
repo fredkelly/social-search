@@ -11,7 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130163355) do
+ActiveRecord::Schema.define(:version => 20130130195712) do
+
+  create_table "results", :force => true do |t|
+    t.string   "title"
+    t.string   "url"
+    t.integer  "search_id"
+    t.string   "description"
+    t.datetime "selected_at"
+    t.integer  "position"
+    t.string   "source_engine"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "results", ["search_id"], :name => "index_results_on_search_id"
+  add_index "results", ["source_engine"], :name => "index_results_on_source_engine"
 
   create_table "searches", :force => true do |t|
     t.string   "query"
