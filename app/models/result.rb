@@ -1,12 +1,17 @@
 class Result < ActiveRecord::Base
-  attr_accessible :title, :description, :position, :search_id, :selected_at, :source_engine, :url
+  attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine
   
-  belongs_to :search
+  belongs_to :search, dependent: :destroy
   
-  # validations?
+  validates :title, :url, presence: true
   
-  # order by created
-  default_scope :order => 'position ASC'
+  # order by position
+  default_scope order: 'position ASC'
+  
+  scope :selected, where('selected_at IS NOT NULL')
+  
+  # perform scraping if required by source Engine
+  before_create :scrape_page, if: Proc.new { self.source_engine::SCRAPED }
   
   def selected
     self.selected_at = Time.now
@@ -18,5 +23,21 @@ class Result < ActiveRecord::Base
   
   def selected?
     !selected_at.nil?
+  end
+  
+  def page
+    @page ||= Page.get(url)
+  end
+  
+  # Set attributes sourced from scraped page
+  def scrape_page
+    self.title        = page.title
+    self.description  = page.description
+    # TODO: grab URL
+  end
+  
+  # convert to constant
+  def source_engine
+    super.constantize
   end
 end

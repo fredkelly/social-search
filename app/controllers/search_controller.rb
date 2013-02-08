@@ -6,7 +6,7 @@ class SearchController < ApplicationController
   # redirect to results page?
   def create
     # TODO: limit based on created_at
-    @search = current_session.searches.first_or_create(query: params[:query])
+    @search = current_session.searches.where(query: params[:query]).first_or_create
     
     render :results
   end
