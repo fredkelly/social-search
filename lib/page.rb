@@ -13,12 +13,12 @@ class Page
   end
   
   def self.get(url)
-    response = super(url)
-    self.new(response.parsed_response, nil) if response.success?
+    response = super(url, no_follow: false) # HTTP request - follows redirects
+    self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
   end
     
   def description
-    meta_description || body_text
+    (meta_description unless meta_description.empty?) || body_text
   end
   
   def meta_description
@@ -27,6 +27,7 @@ class Page
   
   include ActionView::Helpers::TextHelper
   def body_text
-    truncate(document.at(:body).inner_text.gsub(/[\s]+/, ' '), separator: '.', length: 255)
+    # truncate paragraphs to 255 chars splitting on sentence boundaries
+    truncate(document.xpath("//p").inner_text.gsub(/[\s]+/, ' '), separator: '. ', length: 255)
   end
 end

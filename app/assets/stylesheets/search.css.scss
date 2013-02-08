@@ -2,15 +2,38 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+html {
+  text-align: center;
+}
+
 body {
-  font: 12px/1.5 sans-serif;
+  font: 13px/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
+  width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+h1 {
+  letter-spacing: -1px;
 }
 
 ol {
-  h3 {
-    margin: 0;
-  }
-  cite {
-    color: #093;
+  list-style: none;
+  padding: 0;
+  
+  li {
+    margin-bottom: 1em;
+    
+    h3 {
+      margin: 0;
+    }
+    cite {
+      color: #093;
+      display: block;
+      margin-bottom: .5em;
+    }
+    p {
+      margin: 0;
+    }
   }
 }

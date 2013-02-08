@@ -31,13 +31,18 @@ class Result < ActiveRecord::Base
   
   # Set attributes sourced from scraped page
   def scrape_page
+    self.url          = page.url # gives a resolved url
     self.title        = page.title
     self.description  = page.description
-    # TODO: grab URL
   end
   
   # convert to constant
   def source_engine
     super.constantize
+  end
+  
+  # store as string
+  def source_engine=(engine)
+    super(engine.to_s)
   end
 end
