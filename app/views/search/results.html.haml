@@ -1,8 +1,9 @@
-%h1 Your search for "#{@search.query}" returned #{@search.results.size} results..
+- unless @search.nil?
+  %h1 Your search for "#{@search.query}" returned #{@search.results.size} results..
 
-%ol
-  - @search.results.each do |result|
-    %li.result
-      %h3= link_to result.title, result.url, data: { url: result_path(result) }
-      %cite= truncate_url(result.url, length: 100)
-      %p= result.description.html_safe
+  %ol
+    - @search.results.each do |result|
+      %li.result
+        %h3= link_to result.title, result.url, data: { url: result_path(result) }
+        %cite= truncate_url(result.url, length: 100)
+        %p= truncate(result.description, length: 300).html_safe

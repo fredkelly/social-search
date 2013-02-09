@@ -1,6 +1,4 @@
-class Engine
-  SCRAPED = true
-  
+class Engine  
   # Ugly demo of how results should be generated (roughly);
   # initialises based on supplied <tt>Search</tt> instance.
   def initialize(search)

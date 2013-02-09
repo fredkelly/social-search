@@ -27,7 +27,6 @@ class Page
   
   include ActionView::Helpers::TextHelper
   def body_text
-    # truncate paragraphs to 255 chars splitting on sentence boundaries
-    truncate(document.xpath("//p").inner_text.gsub(/[\s]+/, ' '), separator: '. ', length: 255)
+    document.xpath("//p[not(ancestor::noscript)]").inner_text.gsub(/[\s]+/, ' ')[0..500] # limit to 500 chars
   end
 end

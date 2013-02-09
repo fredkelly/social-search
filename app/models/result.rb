@@ -3,7 +3,7 @@ class Result < ActiveRecord::Base
   
   belongs_to :search, dependent: :destroy
   
-  validates :title, :url, presence: true
+  #validates :title, :url, presence: true
   
   # order by position
   default_scope order: 'position ASC'
@@ -25,15 +25,23 @@ class Result < ActiveRecord::Base
     !selected_at.nil?
   end
   
+  def time_to_select
+    selected_at - search.created_at
+  end
+  
   def page
     @page ||= Page.get(url)
   end
   
   # Set attributes sourced from scraped page
   def scrape_page
-    self.url          = page.url # gives a resolved url
-    self.title        = page.title
-    self.description  = page.description
+    begin
+      self.url          = page.url # gives a resolved url
+      self.title        = page.title
+      self.description  = page.description
+    rescue HTTParty::RedirectionTooDeep => error
+      return false # cancel create
+    end
   end
   
   # convert to constant

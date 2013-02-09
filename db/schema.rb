@@ -11,13 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130130195712) do
+ActiveRecord::Schema.define(:version => 20130209113505) do
 
   create_table "results", :force => true do |t|
     t.string   "title"
     t.string   "url"
     t.integer  "search_id"
-    t.string   "description"
+    t.text     "description"
     t.datetime "selected_at"
     t.integer  "position"
     t.string   "source_engine"
@@ -46,8 +46,10 @@ ActiveRecord::Schema.define(:version => 20130130195712) do
     t.string   "accept"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.string   "app_version"
   end
 
+  add_index "sessions", ["app_version"], :name => "index_sessions_on_app_version"
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
 
 end

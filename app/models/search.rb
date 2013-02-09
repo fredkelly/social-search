@@ -21,6 +21,6 @@ class Search < ActiveRecord::Base
     # ...
     # end
     
-    Engine.new(self)
+    KMeans.new(self)
   end
 end

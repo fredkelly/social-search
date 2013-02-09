@@ -6,4 +6,7 @@
     = javascript_include_tag 'application'
     = csrf_meta_tags
   %body
+    - unless flash[:error].nil?
+      #error
+        %p= flash[:error]
     = yield

@@ -10,6 +10,8 @@ gem 'haml-rails'
 gem 'useragent'
 gem 'httparty'
 gem 'nokogiri'
+gem 'twitter'
+gem 'stopwords'
 
 gem 'awesome_print'
 
