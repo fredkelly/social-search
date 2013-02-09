@@ -8,13 +8,16 @@ html {
 
 body {
   font: 13px/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
-  width: 640px;
-  margin: 0 auto;
+  width: 800px;
+  margin: 2% auto;
   text-align: left;
 }
 
 h1 {
   letter-spacing: -1px;
+	font-size: 20px;
+	padding-bottom: .5em;
+	border-bottom: 1px solid #eee;
 }
 
 ol {
@@ -36,4 +39,11 @@ ol {
       margin: 0;
     }
   }
+}
+
+#footer {
+	text-align: center;
+	margin-top: 1em;
+	color: #aaa;
+	font-size: 10px;
 }

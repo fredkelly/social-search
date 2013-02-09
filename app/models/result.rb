@@ -4,6 +4,7 @@ class Result < ActiveRecord::Base
   belongs_to :search, dependent: :destroy
   
   #validates :title, :url, presence: true
+  validate :has_page?
   
   # order by position
   default_scope order: 'position ASC'
@@ -33,15 +34,16 @@ class Result < ActiveRecord::Base
     @page ||= Page.get(url)
   end
   
+  # checks if page is accessible
+  def has_page?
+    !page.nil?
+  end
+  
   # Set attributes sourced from scraped page
   def scrape_page
-    begin
-      self.url          = page.url # gives a resolved url
-      self.title        = page.title
-      self.description  = page.description
-    rescue HTTParty::RedirectionTooDeep => error
-      return false # cancel create
-    end
+    self.url          = page.url # gives a resolved url
+    self.title        = page.title
+    self.description  = page.description
   end
   
   # convert to constant

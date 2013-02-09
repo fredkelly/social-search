@@ -17,7 +17,6 @@ class KMeans < Engine
     
     @samples.each do |a|
       @samples.each do |b|
-        Rails.logger.info((a.tokens & b.tokens).to_a.join(','))
         t += 1 if (a.tokens & b.tokens).size > 0
       end
     end
@@ -33,19 +32,16 @@ class KMeans < Engine
     
     cluster!
     
-    result = nil
-    # WIP; clusters, sorted by distance to original query string
-    @clusters.sort_by{|cluster| KMeans.distance(cluster.centroid, Sample.new(search.query))}.each_with_index do |cluster, position|
-      unless cluster.no_page?
+    # WIP; clusters, sorted by size
+    @clusters.sort_by(&:size).each_with_index do |cluster, position|
+      unless cluster.no_url?
         begin
-          Rails.logger.info "#{cluster.url}"
-          result = search.results.build(
-            source_engine: self.class, url: cluster.url, position: position
+          url = cluster.url
+          search.results.create(
+            source_engine: self.class, url: url, position: position
           )
-          result.save
         rescue Exception => error
           Rails.logger.info "Skipped a cluster!.. #{error}."
-          result.destroy
           position -= 1 # skip count
         end
       end
@@ -101,7 +97,7 @@ class KMeans < Engine
   
   class Cluster
     attr_accessor :centroid, :samples
-    
+        
     def initialize(centroid)
       @samples  = Set.new
       @centroid = centroid
@@ -115,7 +111,7 @@ class KMeans < Engine
       @url ||= urls.group_by{|url| url}.values.max_by(&:size).first rescue nil
     end
     
-    def no_page?
+    def no_url?
       url.nil?
     end
     
@@ -134,6 +130,10 @@ class KMeans < Engine
       
       # return delta
       KMeans.distance(old, @centroid)
+    end
+    
+    def size
+      @samples.size
     end
   end
 end

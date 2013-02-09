@@ -1,7 +1,7 @@
 class Session < ActiveRecord::Base
   attr_accessible :session_id, :app_version, :accept, :accept_charset, :accept_language, :remote_addr, :user_agent
   
-  has_many :searches
+  has_many :searches, dependent: :destroy
   
   # Generates or retrieves instance based
   # on supplied <tt>ActionDispatch::Request</tt>.

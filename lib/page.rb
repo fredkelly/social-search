@@ -1,3 +1,5 @@
+require 'timeout'
+
 class Page
   include HTTParty
   parser HtmlParser
@@ -6,14 +8,26 @@ class Page
   
   delegate :title, to: :document
   
+  # get timeout (secs)
+  TIMEOUT = 5
+  
   # Accepts a <tt>Nokogiri::HTML::Document</tt> document source.
   def initialize(document, url)
     @document = document
     @url      = url
   end
   
+  # WIP
   def self.get(url)
-    response = super(url, no_follow: false) # HTTP request - follows redirects
+    response = nil
+    begin
+      Timeout::timeout(TIMEOUT) do
+        response = super(url, no_follow: false) # HTTP request - follows redirects
+      end
+    rescue # HTTParty::RedirectionTooDeep or Timeout::Error
+      return nil
+    end
+    # genearte instance using Nokogiri::Document & resolved URL
     self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
   end
     
