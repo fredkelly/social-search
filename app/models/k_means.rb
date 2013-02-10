@@ -3,37 +3,23 @@ class KMeans < Engine
   # descriptions by scraping their url.
   SCRAPED = true
   
-  def initialize(search, options = { k: 10, threshold: 0.90, iterations: 3 })
+  def initialize(search, options = { k: 5, threshold: 0.90, iterations: 3 })
     @options  = options
     @samples  = Twitter.search(
                   "#{URI::escape(search.query)} filter:links +exclude:retweets", # only tweets with links + exclude retweets
                   rpp: 100, lang: :en, result_type: :mixed
                 ).results.map{ |t| Sample.new(t) }
-                
-    # experiment
-    m = @samples.size
-    n = @samples.map(&:tokens).flatten.uniq.size
-    t = 0
-    
-    @samples.each do |a|
-      @samples.each do |b|
-        t += 1 if (a.tokens & b.tokens).size > 0
-      end
-    end
-    
-    k = (m*n)/(t/2)
-    
-    Rails.logger.info "K calculated at #{k}. (m = #{m}, n = #{n}, t = #{t})."
-                
-    @clusters = @samples.sample(k).map{ |c| Cluster.new(c) }
-    
-    
-    Rails.logger.info "clusters.size = #{@clusters.size}"
-    
+        
+    @clusters = @samples.in_groups(@options[:k], false).reject{|g| g.empty?}.map{ |c| Cluster.new(c) }
+        
     cluster!
     
     # WIP; clusters, sorted by size
     @clusters.sort_by(&:size).each_with_index do |cluster, position|
+      
+      Rails.logger.info "Cluster #{position+1}, size: #{cluster.size}..., centroid = #{cluster.centroid.tokens.join(',')}"
+      cluster.samples.map{|s| Rails.logger.info "\t#{s.tokens.join(',')}"}
+      
       unless cluster.no_url?
         begin
           url = cluster.url
@@ -52,18 +38,23 @@ class KMeans < Engine
     for i in 0..@options[:iterations]-1
       Rails.logger.info "KMeans iteration #{i+1}.."
       
-      # for each sample
-      @samples.each do |sample|
-        # allocate to the cluster with closest centriod
-        @clusters.sort_by{|cluster| KMeans.distance(cluster.centroid, sample) }.first.samples << sample
-      end
-    
       max_delta = -Float::INFINITY
+      # WIP - Awful time complexity, needs fixing!
       @clusters.each do |cluster|
         delta = cluster.centre!
-      
+              
         if delta > max_delta
           max_delta = delta
+        end
+        
+        cluster.samples.each do |sample|
+          # closest cluster to sample
+          closest = @clusters.sort_by{|c| KMeans.distance(c.centroid, sample) }.first
+          # if we need to move the sample
+          if closest != cluster
+            cluster.samples.delete(sample)  # remove from current cluster
+            closest.samples.add(sample)     # add it to the new cluster
+          end
         end
       end
     
@@ -87,7 +78,7 @@ class KMeans < Engine
     end
     
     def tokens
-      @tokens ||= (@tweet.text rescue @tweet).downcase.split.map{|s| s.gsub(/[^a-z ]/, '')} - ::Stopwords::STOP_WORDS # strip hashes??
+      @tokens ||= (@tweet.text rescue @tweet).downcase.split.map{|s| s.gsub(/[^a-z ]/, '')}.reject{|s| s.empty?} - ::Stopwords::STOP_WORDS # strip hashes??
     end
     
     def urls
@@ -98,9 +89,9 @@ class KMeans < Engine
   class Cluster
     attr_accessor :centroid, :samples
         
-    def initialize(centroid)
-      @samples  = Set.new
-      @centroid = centroid
+    def initialize(samples)
+      @samples  = Set.new(samples)
+      @centroid = @samples.to_a.sample # random
     end
     
     def urls

@@ -27,6 +27,9 @@ class Page
     rescue # HTTParty::RedirectionTooDeep or Timeout::Error
       return nil
     end
+    # ignore short urls
+    Rails.logger.info "URI host = #{response.request.last_uri.host}"
+    return nil if response.request.last_uri.host.size < 10
     # genearte instance using Nokogiri::Document & resolved URL
     self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
   end

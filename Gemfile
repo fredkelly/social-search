@@ -11,7 +11,7 @@ gem 'useragent'
 gem 'httparty'
 gem 'nokogiri'
 gem 'twitter'
-gem 'stopwords'
+gem 'fast-stemmer', require: 'fast_stemmer'
 
 gem 'awesome_print'
 

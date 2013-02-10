@@ -6,11 +6,11 @@ class SearchController < ApplicationController
   # redirect to results page?
   def create
     # TODO: limit based on created_at
-    begin
+    #begin
       @search = current_session.searches.where(query: params[:query]).first_or_create
-    rescue Exception => error
-      flash.now[:error] = "Error occurred. (#{error})"
-    end
+      #rescue Exception => error
+    #  flash.now[:error] = "Error occurred. (#{error})"
+    #end
     
     render :results
   end

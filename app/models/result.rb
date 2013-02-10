@@ -5,6 +5,7 @@ class Result < ActiveRecord::Base
   
   #validates :title, :url, presence: true
   validate :has_page?
+  #validates_length_of :description, minimum: 20
   
   # order by position
   default_scope order: 'position ASC'

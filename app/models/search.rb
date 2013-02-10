@@ -21,6 +21,6 @@ class Search < ActiveRecord::Base
     # ...
     # end
     
-    KMeans.new(self)
+    Sorted.new(self)
   end
 end
