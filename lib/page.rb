@@ -12,7 +12,7 @@ class Page
   TIMEOUT = 10
   
   # ignored hosts
-  IGNORED_HOSTS = %w(facebook.com fb.me instagram.com instagr.am spotify.com spoti.fi)
+  IGNORED_HOSTS = %w(facebook.com fb.me instagram.com instagr.am spotify.com spoti.fi twitter.yfrog.com)
   
   # Accepts a <tt>Nokogiri::HTML::Document</tt> document source.
   def initialize(document, url)

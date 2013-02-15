@@ -109,4 +109,19 @@ ol {
 	margin-top: 3em;
 	color: #aaa;
 	font-size: 10px;
+	
+	li {
+		display: inline;
+		margin: 0 5px;
+		
+		&:after {
+			content: '\00B7';
+			margin-left: 10px;
+			font-weight: bold;
+		}
+		&:last-child:after {
+			content: '';
+			margin-left: 0;
+		}
+	}
 }

@@ -11,4 +11,7 @@
         %p= flash[:error]
     = yield
     #footer
-      %p Social Search Beta (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)})
+      %ul
+        - unless @search.nil?
+          %li#stats Your search for "#{@search.query}" returned #{@search.results.size} results..
+        %li Social Search Beta (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)} ago).
