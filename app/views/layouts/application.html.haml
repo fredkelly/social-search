@@ -11,6 +11,4 @@
         %p= flash[:error]
     = yield
     #footer
-      %p
-        Social Search Beta
-        %code v#{Rails.application.class::VERSION[30..-1]}
+      %p Social Search Beta (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)})
