@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20130209113505) do
     t.string   "accept"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.string   "app_version"
+    t.datetime "app_version"
   end
 
   add_index "sessions", ["app_version"], :name => "index_sessions_on_app_version"

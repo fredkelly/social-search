@@ -11,7 +11,7 @@ class Session < ActiveRecord::Base
         session[key] = request.send(key)
       end
       # record current version of app
-      session.app_version = Rails.application.class::VERSION
+      session.app_version = Rails.application.class::FILE_VERSION
       session.save!
     end
   end
