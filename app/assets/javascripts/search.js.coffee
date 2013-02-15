@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  $('.result a').click (e) ->
-    e.preventDefault()
-    window.location = $(this).data('url')
+	$('input#query').focus();
+	$('.result a').click (e) ->
+		e.preventDefault()
+		window.location = $(this).data('url')

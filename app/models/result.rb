@@ -6,6 +6,7 @@ class Result < ActiveRecord::Base
   #validates :title, :url, presence: true
   validate :has_page?
   #validates_length_of :description, minimum: 20
+  validates_uniqueness_of :url, scope: [:search_id]
   
   # order by position
   default_scope order: 'position ASC'
@@ -36,6 +37,7 @@ class Result < ActiveRecord::Base
   end
   
   # checks if page is accessible
+  # TODO: reject non-200 response codes
   def has_page?
     !page.nil?
   end

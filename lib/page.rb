@@ -9,7 +9,10 @@ class Page
   delegate :title, to: :document
   
   # get timeout (secs)
-  TIMEOUT = 5
+  TIMEOUT = 10
+  
+  # ignored hosts
+  IGNORED_HOSTS = %w(facebook.com fb.me)
   
   # Accepts a <tt>Nokogiri::HTML::Document</tt> document source.
   def initialize(document, url)
@@ -24,12 +27,12 @@ class Page
       Timeout::timeout(TIMEOUT) do
         response = super(url, no_follow: false) # HTTP request - follows redirects
       end
-    rescue # HTTParty::RedirectionTooDeep or Timeout::Error
+    rescue Exception => error # HTTParty::RedirectionTooDeep or Timeout::Error
+      Rails.logger.info "Gave up scraping page (#{error})."
       return nil
     end
     # ignore short urls
-    Rails.logger.info "URI host = #{response.request.last_uri.host}"
-    return nil if response.request.last_uri.host.size < 10
+    return nil if response.request.last_uri.host.size < 10 || IGNORED_HOSTS.include?(response.request.last_uri.host.gsub('www.',''))
     # genearte instance using Nokogiri::Document & resolved URL
     self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
   end

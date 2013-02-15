@@ -21,6 +21,6 @@ class Search < ActiveRecord::Base
     # ...
     # end
     
-    Sorted.new(self)
+    TestEngine.new(self)
   end
 end

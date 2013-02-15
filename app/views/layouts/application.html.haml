@@ -11,4 +11,6 @@
         %p= flash[:error]
     = yield
     #footer
-      %p Social Search Beta - #{Rails.application.class::VERSION}.
+      %p
+        Social Search Beta
+        %code v#{Rails.application.class::VERSION[30..-1]}

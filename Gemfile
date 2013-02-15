@@ -11,7 +11,9 @@ gem 'useragent'
 gem 'httparty'
 gem 'nokogiri'
 gem 'twitter'
-gem 'fast-stemmer', require: 'fast_stemmer'
+#gem 'fast-stemmer', require: 'fast_stemmer'
+gem 'clusterer'
+gem 'stemmer'
 
 gem 'awesome_print'
 

@@ -7,10 +7,11 @@ html {
 }
 
 body {
-  font: 13px/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
+  font: 12px/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
   width: 800px;
   margin: 2% auto;
   text-align: left;
+	color: #333;
 }
 
 h1 {
@@ -18,6 +19,68 @@ h1 {
 	font-size: 20px;
 	padding-bottom: .5em;
 	border-bottom: 1px solid #eee;
+}
+
+#splash {
+	text-align: center;
+	margin-top: 10em;
+	
+	form {
+		margin: 0 auto;
+	}
+}
+
+#header {
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+	padding-bottom: 10px;
+	
+	h1 {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		float: left;
+		font-size: 30px;
+	}
+	form {
+		float: right;
+	}
+}
+
+form {
+	overflow: hidden;
+	width: 405px;
+	
+	fieldset {
+		border: 0;
+		padding: 0;
+	
+		& input, button {
+			font-weight: normal;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			float: left;
+			margin-left: 5px;
+		}
+		input#query {
+			padding: 6px;
+			font-size: 18px;
+			border: 1px solid #ccc;
+			min-width: 300px;
+			outline: none;
+		}
+		button {
+			color: #fff;
+			background: #00a1d9;
+			border: 0;
+			padding: 8px;
+			font-size: 14px;
+			text-transform: uppercase;
+			cursor: pointer;
+			text-shadow: 1px 1px 0 #0065d9;
+		}
+	}
 }
 
 ol {
@@ -34,7 +97,7 @@ ol {
       color: #093;
       display: block;
       margin-bottom: .5em;
-      font-size: 10px;
+      font-size: 11px;
     }
     p {
       margin: 0;
@@ -44,7 +107,7 @@ ol {
 
 #footer {
 	text-align: center;
-	margin-top: 1em;
+	margin-top: 3em;
 	color: #aaa;
 	font-size: 10px;
 }
