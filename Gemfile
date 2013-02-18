@@ -15,6 +15,9 @@ gem 'twitter'
 gem 'clusterer'
 gem 'stemmer'
 
+gem 'turbolinks'
+gem 'jquery-turbolinks'
+
 gem 'awesome_print'
 
 # Gems used only for assets and not required

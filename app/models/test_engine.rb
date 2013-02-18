@@ -7,13 +7,15 @@ class TestEngine < Engine
   }
   
   def initialize(search)
-    @samples = search(search.query).results    
+    @samples = search(search.query).results
+    Rails.logger.info @samples.map(&:text).join("\n")   
     @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples, no_stem: true, tokenizer: :simple_ngram_tokenizer) {|t| t.text}
     
     @clusters.sort.each_with_index do |cluster, position|
       unless cluster.url.nil?
         begin
           search.results.create(
+            # generate description from tweet text?
             source_engine: self.class, url: cluster.url, position: position
           )
         rescue Exception => error
@@ -49,6 +51,8 @@ class Clusterer::Cluster
   def url
     objects.map(&:expanded_urls).flatten.mode # take most frequent
   end
+  
+  # add images method! can get from entities excl. instagram
 end
 
 Enumerable.class_eval do

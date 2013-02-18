@@ -2,126 +2,124 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-html {
-  text-align: center;
-}
-
 body {
-  font: 12px/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
-  width: 800px;
-  margin: 2% auto;
-  text-align: left;
-	color: #333;
-}
-
-h1 {
-  letter-spacing: -1px;
-	font-size: 30px;
-	padding-bottom: .5em;
-	border-bottom: 1px solid #eee;
-}
-
-#splash {
 	text-align: center;
-	margin-top: 10em;
-	
-	form {
-		margin: 0 auto;
+	font: 100%/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
+	margin: 5% 0;
+}
+
+/* smartphones */
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) {
+	body {
+		font-size: 350%;
+	}
+	.container {
+		width: 100%;
+		padding: 0 2%;
 	}
 }
 
-#header {
-	border-bottom: 1px solid #eee;
-	overflow: hidden;
-	padding-bottom: 10px;
-	
-	h1 {
-		margin: 0;
-		padding: 0;
-		border: 0;
-		float: left;
-	}
-	form {
-		float: right;
-	}
+.container {
+	margin: 0 auto;
+	width: 960px;
+	text-align: left;
 }
 
-form {
-	overflow: hidden;
-	width: 405px;
-	
-	fieldset {
-		border: 0;
-		padding: 0;
-	
-		& input, button {
-			font-weight: normal;
-			-webkit-border-radius: 5px;
-			-moz-border-radius: 5px;
-			border-radius: 5px;
-			float: left;
-			margin-left: 5px;
-		}
-		input#query {
-			padding: 6px;
-			font-size: 18px;
-			border: 1px solid #ccc;
-			min-width: 300px;
-			outline: none;
-		}
-		button {
-			color: #fff;
-			background: #00a1d9;
-			border: 0;
-			padding: 8px;
-			font-size: 14px;
-			text-transform: uppercase;
-			cursor: pointer;
-			text-shadow: 1px 1px 0 #0065d9;
-		}
-	}
+#header, #content, #navigation, #footer {
+	margin-bottom: 1em;
 }
 
-ol {
-  list-style: none;
-  padding: 0;
-  
-  li {
-    margin-bottom: 1em;
-    
-    h3 {
-      margin: 0;
-    }
-    cite {
-      color: #093;
-      display: block;
-      margin-bottom: .5em;
-      font-size: 11px;
-    }
-    p {
-      margin: 0;
-    }
-  }
+body.splash {
+	.container {
+		width: 640px;
+		h1#logo {
+			text-align: center;
+		}
+	}
 }
 
 #footer {
-	text-align: center;
-	margin-top: 3em;
-	color: #aaa;
-	font-size: 10px;
+	font-size: 0.8em;
+	color: #ccc;
+}
+
+a:link {
+	color: #00a3df;
+}
+
+a:visited {
+	color: #7f00ba;
+}
+
+/* search field */
+form#search {
+	position: relative;
+	overflow: hidden;
 	
-	li {
-		display: inline;
-		margin: 0 5px;
+	-moz-box-shadow: 1px 1px 1px #eee;
+	-webkit-box-shadow: 1px 1px 1px #eee;
+	box-shadow: 1px 1px 1px #eee;
+	
+	input, button {
+		border: 0;
+		margin: 0;
+		outline: none;
+		padding: 10px;
+		font-size: 1em;
+	}
+	
+	input {
+		-moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+		border: 1px solid #eee;
+		width: 100%;
 		
-		&:after {
-			content: '\00B7';
-			margin-left: 10px;
-			font-weight: bold;
+		&:focus {
+			border-color: #ddd;
 		}
-		&:last-child:after {
-			content: '';
-			margin-left: 0;
+	}
+	
+	button {
+		background: #a1b25e;
+		border-bottom: 2px solid #91a150;
+		text-shadow: 0 -2px 0 #91a150;
+		color: #fff;
+		position: absolute;
+		top: 0; right: 0;
+		height: 100%;
+		cursor: pointer;
+	}
+}
+
+/* search results */
+.results {
+	#info {
+		font-size: 0.8em;
+		text-transform: uppercase;
+		background: image-url('horiz-bar.gif') repeat-x 0 50%;
+		color: #555;
+		
+		p {
+			background: #fff;
+			display: inline-block;
+			padding-right: 5px;
+		}
+	}
+	
+	ol {
+		li {
+			margin-top: 1em;
+			
+			cite {
+				color: #a1b25e;
+				font-size: 0.8em;
+			}
+			p {
+				margin-top: 0.5em;
+			}
 		}
 	}
 }

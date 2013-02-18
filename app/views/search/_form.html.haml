@@ -1,5 +1,4 @@
-= form_tag('/search', method: 'get') do
+= form_tag('/search', method: 'get', id: 'search') do
   %fieldset
-    =# label_tag 'query', 'Search Term:'
     = text_field_tag 'query', (@search.query unless @search.nil?), placeholder: 'Enter your query..'
-    = button_tag 'Search', value: nil
+    = button_tag 'Search', name: nil
