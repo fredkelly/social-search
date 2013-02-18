@@ -8,19 +8,21 @@ class TestEngine < Engine
   
   def initialize(search)
     @samples = search(search.query).results
-    Rails.logger.info @samples.map(&:text).join("\n")   
+    # must rebuild this into it's own class (and get rid of gem!)
     @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples, no_stem: true, tokenizer: :simple_ngram_tokenizer) {|t| t.text}
     
     @clusters.sort.each_with_index do |cluster, position|
-      unless cluster.url.nil?
-        begin
+      unless cluster.url.nil?        
+        begin          
           search.results.create(
             # generate description from tweet text?
             source_engine: self.class, url: cluster.url, position: position
           )
-        rescue Exception => error
-          Rails.logger.info "Skipped a cluster!.. #{error}."
+          # print cluster & samples
+          Rails.logger.info "Cluster #{position}..\n\t" + cluster.objects.join("\n\t")
+        rescue StandardError => error
           position -= 1 # skip count
+          Rails.logger.info "Skipped a cluster!.. #{error}."
         end
       end
     end
@@ -33,6 +35,8 @@ class TestEngine < Engine
 end
 
 class Twitter::Tweet
+  alias_method :to_s, :text
+  
   def expanded_urls
     urls.map(&:expanded_url)
   end

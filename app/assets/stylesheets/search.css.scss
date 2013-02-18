@@ -119,6 +119,10 @@ form#search {
 			}
 			p {
 				margin-top: 0.5em;
+        
+        strong.highlight {
+          font-weight: bold;
+        }
 			}
 		}
 	}

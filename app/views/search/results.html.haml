@@ -8,4 +8,4 @@
       %li
         %h3= link_to result.title, result.url, data: { url: result_path(result) }
         %cite= truncate_url(result.url, length: 100)
-        %p= truncate(result.description, length: 300).html_safe
+        %p= highlight(truncate(result.description, length: 300), @search.query_tokens).html_safe

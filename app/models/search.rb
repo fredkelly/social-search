@@ -9,6 +9,10 @@ class Search < ActiveRecord::Base
   # create results as soon as record is created
   after_create :generate_results
   
+  def query_tokens
+    @query_tokens ||= query.downcase.split
+  end
+  
   private
   
   # here we will call KMeans etc. to actually

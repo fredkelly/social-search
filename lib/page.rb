@@ -38,15 +38,22 @@ class Page
   end
     
   def description
-    (meta_description unless meta_description.empty?) || body_text
+    (meta_description unless meta_description.empty? || generic_meta_description?) || body_text
   end
   
   def meta_description
-    document.xpath("//meta[@name=\"description\"]/@content").inner_text
+    @meta_description ||= document.xpath("//meta[@name=\"description\"]/@content").inner_text
+  end
+  
+  # checks for generic description
+  # i.e. if there are common words in the first
+  # 30 characters of the <title> and <meta> description.
+  def generic_meta_description?
+    [truncate(document.title, length: 30, omission: ''), meta_description].map{|d| d.downcase.split}.reduce(&:&).size > 0
   end
   
   include ActionView::Helpers::TextHelper
   def body_text
-    document.xpath("//p[not(ancestor::noscript)]").inner_text.gsub(/[\s]+/, ' ')[0..500] # limit to 500 chars
+    @body_text ||= document.xpath("//p[not(ancestor::noscript)]").inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ')[0..500] # limit to 500 chars
   end
 end
