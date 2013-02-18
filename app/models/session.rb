@@ -2,6 +2,9 @@ class Session < ActiveRecord::Base
   attr_accessible :session_id, :app_version, :accept, :accept_charset, :accept_language, :remote_addr, :user_agent
   
   has_many :searches, dependent: :destroy
+  validates :session_id, presence: true
+  
+  alias_attribute :to_s, :session_id
   
   # Generates or retrieves instance based
   # on supplied <tt>ActionDispatch::Request</tt>.
@@ -17,8 +20,16 @@ class Session < ActiveRecord::Base
   end
   
   # parse string into object
-  # https://github.com/josh/useragent
+  # https://github.com/toolmantim/user_agent_parser
   def user_agent
-    UserAgent.parse(super)
+    UserAgentParser.parse(super)
+  end
+  
+  def duration
+    updated_at - created_at
+  end
+  
+  def app_version_latest?
+    app_version == Rails.application.class::FILE_VERSION
   end
 end

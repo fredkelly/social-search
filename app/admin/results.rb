@@ -1,6 +1,8 @@
 ActiveAdmin.register Result do
   index do
-    column 'ID', :id
+    column 'ID' do |result|
+      link_to result.id, admin_result_path(result)
+    end
     column 'Query' do |result|
       result.search.query
     end
@@ -9,8 +11,9 @@ ActiveAdmin.register Result do
       truncate(result.description, length: 100)
     end
     column 'Selected?' do |result|
-      [result.selected?, ("(#{result.selected_at})" if result.selected?)].join(' ')
+      [result.selected?, ("(in %0.2f secs)" % result.time_to_select if result.selected?)].join(' ')
     end
+    column :position
     column :source_engine
   end
 end

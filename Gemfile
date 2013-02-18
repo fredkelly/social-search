@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 
 gem 'pg'
 gem 'haml-rails'
-gem 'useragent'
+gem 'user_agent_parser'
 gem 'httparty'
 gem 'nokogiri'
 gem 'twitter'

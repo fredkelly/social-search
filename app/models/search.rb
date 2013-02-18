@@ -9,8 +9,14 @@ class Search < ActiveRecord::Base
   # create results as soon as record is created
   after_create :generate_results
   
+  alias_attribute :to_s, :query
+  
   def query_tokens
     @query_tokens ||= query.downcase.split
+  end
+  
+  def success?
+    results.map(&:selected?).reduce(&:|)
   end
   
   private
