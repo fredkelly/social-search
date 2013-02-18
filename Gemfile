@@ -14,6 +14,7 @@ gem 'twitter'
 #gem 'fast-stemmer', require: 'fast_stemmer'
 gem 'clusterer'
 gem 'stemmer'
+gem 'activeadmin'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

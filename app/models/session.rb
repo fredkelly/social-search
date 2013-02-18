@@ -10,8 +10,8 @@ class Session < ActiveRecord::Base
       [:accept, :accept_charset, :accept_language, :remote_addr, :user_agent].each do |key|
         session[key] = request.send(key)
       end
-      # record current version of app
-      session.app_version = Rails.application.class::FILE_VERSION
+      session.referer ||= request.params[:referer] # use URI(request.referer).host ?
+      session.app_version ||= Rails.application.class::FILE_VERSION
       session.save!
     end
   end

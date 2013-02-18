@@ -6,7 +6,7 @@ class Result < ActiveRecord::Base
   #validates :title, :url, presence: true
   validate :has_page?
   #validates_length_of :description, minimum: 20
-  validates_uniqueness_of :url, scope: [:search_id]
+  validates_uniqueness_of :url, :title, scope: [:search_id]
   
   # order by position
   default_scope order: 'position ASC'

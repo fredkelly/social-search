@@ -1,5 +1,6 @@
 SocialSearch::Application.routes.draw do
-  get "results/show"
+  ActiveAdmin.routes(self)
+  devise_for :admin_users, ActiveAdmin::Devise.config
 
   root to: 'search#index'
   match '/search', to: 'search#create'

@@ -4,7 +4,7 @@
 
 jQuery ->
 	$('input#query').focus().val($("input#query").val())
-	$('.result a').click (e) ->
+	$('.results li a').click (e) ->
 		e.preventDefault()
 		window.location = $(this).data('url')
 	
@@ -15,11 +15,10 @@ jQuery ->
 			pos = str.lastIndexOf('.')
 			$(img).attr('src', str.substr(0, pos) + "@2x" + str.substr(pos)) if pos != -1
 			
-	# 'instant' search
-	$('input#query').keyup (e) ->
-		console.log "Searching..."
-		
-		#e.preventDefault()
-		$.getJSON('./search.json', { 'query': encodeURIComponent($(this).val()) }, (results) ->
-			console.log results
-		)
+#	# 'instant' search
+#	$('input#query').keyup (e) ->
+#		console.log "Searching..."
+#		#e.preventDefault()
+#		$.getJSON('./search.json', { 'query': encodeURIComponent($(this).val()) }, (results) ->
+#			console.log results
+#		)
