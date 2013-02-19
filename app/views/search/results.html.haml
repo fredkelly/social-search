@@ -1,15 +1,15 @@
 #navigation
-  = render 'form'
+	= render 'form'
 .results
 	- if @search.results.empty?
 		#info
 			%p Sorry no matches for "#{@search.query}".
 	- else
-	  #info
-	    %p Found #{pluralize(@search.results.size, 'result')} for "#{@search.query}"...
-	  %ol
-	    - @search.results.each do |result|
-	      %li
-	        %h3= link_to result.title, result.url, data: { url: result_path(result) }
-	        %cite= truncate_url(result.url, length: 100)
-	        %p= highlight(truncate(result.description, length: 300), @search.query_tokens).html_safe
+		#info
+			%p Found #{pluralize(@search.results.size, 'result')} for "#{@search.query}"...
+		%ol
+			- @search.results.each do |result|
+				%li
+					%h3= link_to result.title, result.url, data: { url: result_path(result) }
+					%cite= truncate_url(result.url, length: 100)
+					%p= highlight(truncate(result.description, length: 300), @search.query_tokens).html_safe
