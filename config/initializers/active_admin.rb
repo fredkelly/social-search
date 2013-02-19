@@ -124,6 +124,9 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_filter :do_something_awesome
+  
+  # we don't care about admin sesssions
+  config.skip_before_filter :current_session
 
 
   # == Register Stylesheets & Javascripts
