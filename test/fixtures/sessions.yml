@@ -2,7 +2,7 @@
 
 one:
   session_id: MyString
-  remote_addr: MyString
+  remote_ip: MyString
   accept_language: MyString
   user_agent: MyString
   accept_charset: MyString
@@ -10,7 +10,7 @@ one:
 
 two:
   session_id: MyString
-  remote_addr: MyString
+  remote_ip: MyString
   accept_language: MyString
   user_agent: MyString
   accept_charset: MyString

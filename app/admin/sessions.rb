@@ -6,7 +6,7 @@ ActiveAdmin.register Session do
     column 'Key' do |session|
       truncate(session.session_id, length: 10)
     end
-    column 'IP', :remote_addr
+    column 'IP', :remote_ip
     column 'Platform' do |session|
       "#{session.user_agent.name} (#{session.user_agent.os})"
     end
@@ -57,7 +57,7 @@ ActiveAdmin.register Session do
     attributes_table do
       row :id
       row :session_id
-      row :remote_addr
+      row :remote_ip
       row :accept_language
       row :accept_charset
       row :accept

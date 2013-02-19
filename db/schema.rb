@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130218145051) do
+ActiveRecord::Schema.define(:version => 20130219104422) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(:version => 20130218145051) do
 
   create_table "sessions", :force => true do |t|
     t.string   "session_id"
-    t.string   "remote_addr"
+    t.string   "remote_ip"
     t.string   "accept_language"
     t.string   "user_agent"
     t.string   "accept_charset"
