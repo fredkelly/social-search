@@ -4,7 +4,7 @@ require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test production)))
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -64,6 +64,6 @@ module SocialSearch
     config.assets.initialize_on_precompile = false
     
     # https://github.com/gregbell/active_admin/issues/483
-    #config.assets.precompile += [/^a-z0-9+(css|js)$/]
+    config.assets.precompile += %w(active_admin.css active_admin.js active_admin/print.css)
   end
 end
