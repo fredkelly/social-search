@@ -64,6 +64,6 @@ module SocialSearch
     config.assets.initialize_on_precompile = false
     
     # https://github.com/gregbell/active_admin/issues/483
-    config.assets.compile = true
+    config.assets.precompile += %w[active_admin.css active_admin.js]
   end
 end
