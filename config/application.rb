@@ -62,5 +62,8 @@ module SocialSearch
     # fix for Heroku asset:precompile issue
     # http://www.simonecarletti.com/blog/2012/02/heroku-and-rails-3-2-assetprecompile-error/
     config.assets.initialize_on_precompile = false
+    
+    # https://github.com/gregbell/active_admin/issues/483
+    config.assets.compile = true
   end
 end
