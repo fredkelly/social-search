@@ -37,6 +37,30 @@ body.splash {
 		h1#logo {
 			text-align: center;
 		}
+		#recents {
+			margin-top: 0.5em;
+			font-size: 0.8em;
+			color: #555;
+			
+			h3, ul {
+				display: inline-block;
+			}
+			li {
+				margin-left: 0.25em;
+				display: inline;
+				
+				a:link, a:visited {
+					color: #00a3df;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+	#footer {
+		margin-top: 5em;
+		.container {
+			text-align: center;
+		}
 	}
 }
 

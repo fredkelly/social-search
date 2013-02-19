@@ -1,1 +1,6 @@
 = render 'form'
+#recents
+  %h3 Recent:
+  %ul
+    - @recents.each do |search|
+      %li= link_to search, search_path(nil, query: search.query)

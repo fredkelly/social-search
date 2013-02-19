@@ -11,6 +11,13 @@ class Search < ActiveRecord::Base
   
   alias_attribute :to_s, :query
   
+  scope :with_results, joins: [:results], conditions: 'results.search_id IS NOT NULL', group: 'searches.id'
+  
+  # gets recent search objects with results
+  def self.recents(limit = 5)
+    with_results.last(limit)
+  end
+  
   def query_tokens
     @query_tokens ||= query.downcase.split
   end
