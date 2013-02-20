@@ -57,7 +57,7 @@ class Page
     # needs more work, remove symbols etc.
     @body_text ||= document.search("//p[not(ancestor::noscript)]").map do |p|
       next if p.inner_text.size < 100
-      p.inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ').gsub(/[^0-9A-Za-z\s]/, '').strip
+      p.inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ').gsub(/[^0-9A-Za-z'\.\s]/, '').strip
     end.compact.join(' ')[0..500] # limit to 500 chars
   end
 end

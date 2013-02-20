@@ -7,7 +7,7 @@ class TestEngine < Engine
   }
   
   def initialize(search)
-    @samples = search(search.query).results
+    @samples = search(self.class.expand_query(search.query)).results
     # must rebuild this into it's own class (and get rid of gem!)
     @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples, no_stem: true, tokenizer: :simple_ngram_tokenizer) {|t| t.text}
     
@@ -32,6 +32,11 @@ class TestEngine < Engine
   def search(query)
     # searches for tweets containing links (excl. retweets)
     @search ||= Twitter.search("#{URI::escape(query)} filter:links +exclude:retweets", SEARCH_OPTS)
+  end
+  
+  # WIP
+  def self.expand_query(query)
+    query.split.map{|t| "#{t} ##{t} #{t.stem}"}.join(' ')
   end
 end
 
