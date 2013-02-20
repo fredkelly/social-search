@@ -19,6 +19,7 @@ gem 'activeadmin'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'bourbon'
+gem 'hisrc-rails'
 
 gem 'awesome_print'
 

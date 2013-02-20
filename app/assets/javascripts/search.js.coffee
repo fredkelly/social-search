@@ -7,18 +7,6 @@ jQuery ->
 	$('.results li a').click (e) ->
 		e.preventDefault()
 		window.location = $(this).data('url')
-	
-	# replace retina images
-	if (window.devicePixelRatio == 2)
-		$('img').each (i, img) ->
-			str = $(img).attr('src')
-			pos = str.lastIndexOf('.')
-			$(img).attr('src', str.substr(0, pos) + "@2x" + str.substr(pos)) if pos != -1
-			
-#	# 'instant' search
-#	$('input#query').keyup (e) ->
-#		console.log "Searching..."
-#		#e.preventDefault()
-#		$.getJSON('./search.json', { 'query': encodeURIComponent($(this).val()) }, (results) ->
-#			console.log results
-#		)
+  
+  # retina images
+  $('img').hisrc();
