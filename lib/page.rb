@@ -56,7 +56,7 @@ class Page
   def body_text
     # needs more work, remove symbols etc.
     @body_text ||= document.search("//p[not(ancestor::noscript)]").map do |p|
-      return nil if p.inner_text.size < 100
+      next if p.inner_text.size < 100
       p.inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ').gsub(/[^0-9A-Za-z\s]/, '').strip
     end.compact.join(' ')[0..500] # limit to 500 chars
   end

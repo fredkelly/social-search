@@ -3,8 +3,9 @@ class Result < ActiveRecord::Base
   
   belongs_to :search, dependent: :destroy, touch: true
   
-  validates :title, :url, :description, presence: true
-  validate :has_page?
+  # WIP
+  #validates :title, :url, :description, presence: true, if: :has_page?
+  
   #validates_length_of :description, minimum: 20
   validates_uniqueness_of :url, scope: [:search_id]
   
