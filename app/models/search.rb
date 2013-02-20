@@ -14,8 +14,9 @@ class Search < ActiveRecord::Base
   scope :with_results, joins: [:results], conditions: 'results.search_id IS NOT NULL', group: 'searches.id'
   
   # gets recent search objects with results
+  # ignores any duplicate query strings
   def self.recents(limit = 5)
-    with_results.last(limit)
+    with_results.last(limit).uniq{|s| s.query}
   end
   
   def query_tokens

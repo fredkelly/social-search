@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   
   # Get the current user's Session record based on session_id
   def current_session
-    logger.ap request.session
     @current_session ||= Session.find_or_create_by_request(request) rescue nil # allow for empty session
   end
   

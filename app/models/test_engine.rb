@@ -14,10 +14,11 @@ class TestEngine < Engine
     @clusters.sort.each_with_index do |cluster, position|
       unless cluster.url.nil?        
         begin          
-          search.results.create(
+          result = search.results.create(
             # generate description from tweet text?
             source_engine: self.class, url: cluster.url, position: position
           )
+          raise result.errors.full_messages.join(',') if !result
           # print cluster & samples
           Rails.logger.info "Cluster #{position}..\n\t" + cluster.objects.join("\n\t")
         rescue StandardError => error
@@ -39,6 +40,10 @@ class Twitter::Tweet
   
   def expanded_urls
     urls.map(&:expanded_url)
+  end
+  
+  def images
+    entities.media.map(&:media_url)
   end
 end
 

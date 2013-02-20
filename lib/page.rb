@@ -54,6 +54,10 @@ class Page
   
   include ActionView::Helpers::TextHelper
   def body_text
-    @body_text ||= document.xpath("//p[not(ancestor::noscript)]").inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ')[0..500] # limit to 500 chars
+    # needs more work, remove symbols etc.
+    @body_text ||= document.search("//p[not(ancestor::noscript)]").map do |p|
+      return nil if p.inner_text.size < 100
+      p.inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ').gsub(/[^0-9A-Za-z\s]/, '').strip
+    end.compact.join(' ')[0..500] # limit to 500 chars
   end
 end

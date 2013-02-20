@@ -3,7 +3,7 @@ module ApplicationHelper
   
   def display_flash(type = nil)
     if type.nil?
-      FLASH_TYPES.map{|t| display_flash(t)}.join
+      FLASH_TYPES.map{|t| display_flash(t)}.compact.join('<br/>')
     else
       content_tag(:div, flash[type], class: type) unless flash[type].blank?
     end

@@ -28,6 +28,7 @@ class Result < ActiveRecord::Base
     !selected_at.nil?
   end
   
+  # add attribute and add to before_save filter?
   def time_to_select
     selected_at - search.created_at
   end
