@@ -24,6 +24,7 @@ class Search < ActiveRecord::Base
   end
   
   def success?
+    return false if results.empty?
     results.map(&:selected?).reduce(&:|)
   end
   
