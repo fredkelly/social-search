@@ -18,7 +18,7 @@ class Result < ActiveRecord::Base
   before_create :scrape_page, if: Proc.new { self.source_engine::SCRAPED }
   
   def selected
-    self.selected_at = Time.now
+    self.selected_at ||= Time.now
   end
   
   def selected!
