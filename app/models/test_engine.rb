@@ -35,8 +35,9 @@ class TestEngine < Engine
   end
   
   # WIP
-  def self.expand_query(query)
-    query.split.map{|t| "#{t} ##{t} #{t.stem}"}.join(' ')
+  def self.expand_query(query, concat_length = 2)
+    terms = query.split.permutation(concat_length).map(&:join)
+    (["(#{query})"] + terms.map{|t| [t, '#' + t, t.stem, '#' + t.stem]}.flatten).join(' OR ')
   end
 end
 
@@ -72,5 +73,9 @@ end
 Enumerable.class_eval do
   def mode
     group_by{|e| e}.values.max_by(&:size).first
+  end
+  
+  def superset
+    
   end
 end
