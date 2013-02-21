@@ -1,6 +1,7 @@
+# log to STDOUT for heroku so we can grep for [CUSTOM]
 class HerokuLogger < ActiveSupport::BufferedLogger
   def initialize
-    super(Rails.env.production? ? $STDOUT : Rails.root.join('log/custom.log'))
+    super(Rails.env.production? ? $stdout : Rails.root.join('log/custom.log'))
   end
   
   def add(severity, message = nil, progname = nil, &block)
