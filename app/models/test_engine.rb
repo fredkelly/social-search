@@ -7,23 +7,30 @@ class TestEngine < Engine
   }
   
   def initialize(search)
-    @samples = search(self.class.expand_query(search.query)).results
+    @samples = search(expanded = self.class.expand_query(search.query)).results
+    
+    # debug for live demo
+    CustomLogger.info "New search for \"#{search.query}\", expanded to \"#{expanded}\", found #{@samples.size} tweets.".red.on_black
+    
     # must rebuild this into it's own class (and get rid of gem!)
-    @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples, no_stem: true, tokenizer: :simple_ngram_tokenizer) {|t| t.text}
+    @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples,
+                                                no_stem: true,
+                                                tokenizer: :simple_ngram_tokenizer
+                                              ) {|t| t.text}
     
     @clusters.sort.each_with_index do |cluster, position|
       unless cluster.url.nil?        
-        begin          
-          result = search.results.create(
+        begin
+          # throws an error if validation fails
+          result = search.results.create!(
             # generate description from tweet text?
             source_engine: self.class, url: cluster.url, position: position
           )
-          raise result.errors.full_messages.join(',') if !result
           # print cluster & samples
-          Rails.logger.info "Cluster #{position}..\n\t" + cluster.objects.join("\n\t")
-        rescue StandardError => error
-          position -= 1 # skip count
-          Rails.logger.info "Skipped a cluster!.. #{error}."
+          CustomLogger.info "\nCluster #{position}..\n\t".red + cluster.objects.join("\n\t") + "\n..scraping \"#{result.url}\"..".magenta + "\n"
+        rescue ActiveRecord::RecordNotSaved => error
+          CustomLogger.info "Skipped a cluster (failed validation).. (#{error})\n".red
+          position = position - 1 # skip count
         end
       end
     end
@@ -36,8 +43,8 @@ class TestEngine < Engine
   
   # WIP
   def self.expand_query(query, concat_length = 2)
-    terms = query.split.permutation(concat_length).map(&:join)
-    (["(#{query})"] + terms.map{|t| [t, '#' + t, t.stem, '#' + t.stem]}.flatten).join(' OR ')
+    terms = query.split.permutation(concat_length).map(&:join) << query
+    (terms.map{|t| [t, '#' + t] + (t.stem != t ? [t.stem, '#' + t.stem] : [])}.flatten).join(' OR ')
   end
 end
 
@@ -73,9 +80,5 @@ end
 Enumerable.class_eval do
   def mode
     group_by{|e| e}.values.max_by(&:size).first
-  end
-  
-  def superset
-    
   end
 end

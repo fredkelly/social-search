@@ -22,6 +22,7 @@ gem 'bourbon'
 gem 'hisrc-rails'
 
 gem 'awesome_print'
+gem 'term-ansicolor' # for demo console
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -7,7 +7,8 @@ class Result < ActiveRecord::Base
   #validates :title, :url, :description, presence: true, if: :has_page?
   
   #validates_length_of :description, minimum: 20
-  validates_uniqueness_of :url, scope: [:search_id]
+  validates_uniqueness_of :url, scope: [:search_id],
+    message: Proc.new {|error,attrs| "URL \"#{attrs[:url]}\" already found in this search."}
   
   # order by position
   default_scope order: 'position ASC'
@@ -41,14 +42,20 @@ class Result < ActiveRecord::Base
   # checks if page is accessible
   # TODO: reject non-200 response codes
   def has_page?
-    !page.nil?
+    !(page.nil? || page.document.nil?)
   end
   
   # Set attributes sourced from scraped page
   def scrape_page
+    # fail if we can't scrape document
+    return false unless has_page?
+    
+    # grab scraped attributes
     self.url          = page.url # gives a resolved url
     self.title        = page.title
     self.description  = page.description
+    
+    return valid?
   end
   
   # convert to constant
