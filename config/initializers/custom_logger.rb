@@ -1,6 +1,6 @@
 class HerokuLogger < ActiveSupport::BufferedLogger
   def initialize
-    super(Rails.root.join(Rails.env.production? ? 'log/production.log' : 'log/custom.log'))
+    super(Rails.env.production? ? $STDOUT : Rails.root.join('log/custom.log'))
   end
   
   def add(severity, message = nil, progname = nil, &block)
