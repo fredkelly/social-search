@@ -13,6 +13,10 @@ jQuery ->
   
 # show loader for turbolinks
 $(document)
+  # manually trigger loading for form(hack)
+  .on('submit', 'form#search', ->
+    $('body').addClass('loading')
+  )
   # update search field
   .on('click', '#recents a', ->
     $('input#query').val($(this).text())
@@ -20,12 +24,10 @@ $(document)
   # disable input
   .on('page:fetch', ->
     $('body').addClass('loading')
-    $('.results').fadeOut('slow')
     $('input#query', this).prop('disabled', true)
   )
   # load updates
   .on('page:change', ->
     $('body').removeClass('loading')
-    $('.results').fadeIn('slow')
     $('input#query', this).prop('disabled', false)
   )
