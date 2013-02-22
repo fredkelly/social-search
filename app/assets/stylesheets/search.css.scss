@@ -140,6 +140,15 @@ form#search {
 	position: relative;
 	overflow: hidden;
 	@include box-shadow(1px 1px 1px #eee);
+  background: #fff;
+  
+  &.loading {
+    background: image-url('loading.gif') no-repeat 0.25em 50%;
+    
+    input {
+      padding-left: 2.5em;
+    }
+  }
 
 	input, button {
 		border: 0;
@@ -151,6 +160,7 @@ form#search {
 	
 	input {
 		@include box-sizing(border-box);
+    background: transparent;
     
 		border: 1px solid #eee;
 		width: 100%;

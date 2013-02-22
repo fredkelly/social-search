@@ -10,3 +10,18 @@ jQuery ->
   
   # retina images
   $('img').hisrc();
+  
+  # recent links
+  $('#recents a').click (e) ->
+    $('input#query').val($(this).text())
+  
+  # show loader for turbolinks
+  $(document)
+    .on('page:fetch', ->
+      $('form#search').addClass('loading');
+      $('input#query', this).prop('disabled', true);
+    )
+    .on('page:change', ->
+      $('form#search').removeClass('loading');
+      $('input#query', this).prop('disabled', false);
+    )
