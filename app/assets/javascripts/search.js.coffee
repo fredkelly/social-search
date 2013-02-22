@@ -11,17 +11,21 @@ jQuery ->
   # retina images
   $('img').hisrc();
   
-  # recent links
-  $('#recents a').click (e) ->
-    $('input#query').val($(this).text())
-  
 # show loader for turbolinks
 $(document)
+  # update search field
+  .on('click', '#recents a', ->
+    $('input#query').val($(this).text())
+  )
+  # disable input
   .on('page:fetch', ->
+    $('.results').fadeOut('slow')
     $('form#search').addClass('loading');
     $('input#query', this).prop('disabled', true);
   )
+  # load updates
   .on('page:change', ->
+    $('.results').fadeIn('slow')
     $('form#search').removeClass('loading');
     $('input#query', this).prop('disabled', false);
   )
