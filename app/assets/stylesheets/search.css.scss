@@ -135,6 +135,19 @@ a:visited {
 	color: #7f00ba;
 }
 
+body.loading {
+  form#search {
+    background: image-url('loading.gif') no-repeat 0.25em 50%;
+    
+    input {
+      padding-left: 2.5em;
+    }
+  }
+  .results {
+    display: none;
+  }
+}
+
 /* search field */
 form#search {
 	position: relative;
@@ -142,14 +155,6 @@ form#search {
 	@include box-shadow(1px 1px 1px #eee);
   background: #fff;
   
-  &.loading {
-    background: image-url('loading.gif') no-repeat 0.25em 50%;
-    
-    input {
-      padding-left: 2.5em;
-    }
-  }
-
 	input, button {
 		border: 0;
 		margin: 0;

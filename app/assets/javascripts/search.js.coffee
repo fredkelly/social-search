@@ -19,13 +19,13 @@ $(document)
   )
   # disable input
   .on('page:fetch', ->
+    $('body').addClass('loading')
     $('.results').fadeOut('slow')
-    $('form#search').addClass('loading');
-    $('input#query', this).prop('disabled', true);
+    $('input#query', this).prop('disabled', true)
   )
   # load updates
   .on('page:change', ->
+    $('body').removeClass('loading')
     $('.results').fadeIn('slow')
-    $('form#search').removeClass('loading');
-    $('input#query', this).prop('disabled', false);
+    $('input#query', this).prop('disabled', false)
   )
