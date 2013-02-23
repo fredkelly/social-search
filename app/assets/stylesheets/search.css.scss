@@ -2,10 +2,14 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$text-color: #111;
+$alt-text-color: #555;
+
 body {
 	text-align: center;
 	font: 100%/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
 	margin: 5em 0;
+  color: $text-color;
   
   .container {
   	margin: 0 auto;
@@ -23,6 +27,11 @@ body {
   margin-top: 1em;
   font-size: 0.8em;
   background: #fcfcfc;
+  
+  h3, h4 {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
 }
 
 .error {
@@ -33,6 +42,14 @@ body {
 .success {
   color: #468847;
   background: #dff0d8;
+}
+
+.hidden {
+  display: none;
+}
+
+input, textarea, select {
+  font-size: inherit;
 }
 
 /* smartphones */
@@ -81,7 +98,7 @@ body.splash {
       padding: 0 0.75em;
 			font-size: 0.8em;
       position: relative;
-			color: #555;
+			color: $alt-text-color;
 			
 			h3, ul {
 				@include inline-block;
@@ -122,11 +139,6 @@ body.splash {
 	}
 }
 
-#footer {
-	font-size: 0.8em;
-	color: #ccc;
-}
-
 a:link {
 	color: #00a3df;
 }
@@ -135,13 +147,50 @@ a:visited {
 	color: #7f00ba;
 }
 
+/* info links for non-core functionality */
+a.info {
+  text-decoration: none;
+  &:link, &:visited {
+    color: #d47130;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 body.loading {
   form#search {
-    background: image-url('loading.gif') no-repeat 0.25em 50%;
+    background-position: 0.35em 50%;
     
     input {
       padding-left: 2.5em;
+      color: #aaa;
     }
+    button {
+      opacity: 0.75;
+    }
+  }
+}
+
+button {
+  border: 0;
+  padding: 0.5em 0.5em 0.4em 0.5em;
+	background: #a1b25e;
+	border-bottom: 2px solid #91a150;
+	text-shadow: 0 -2px 0 #91a150;
+	color: #fff;
+	cursor: pointer;
+  text-transform: uppercase;
+  
+  &[rel=close] {
+    background: #555;
+    border-color: #333;
+    text-shadow: 0 -2px 0 #333;
+  }
+  
+  &.arrow:after {
+    content: '\2192';
+    margin-left: 0.25em;
   }
 }
 
@@ -150,7 +199,7 @@ form#search {
 	position: relative;
 	overflow: hidden;
 	@include box-shadow(1px 1px 1px #eee);
-  background: #fff;
+  background: #fff image-url('loading.gif') no-repeat -9999px 0;
   
 	input, button {
 		border: 0;
@@ -173,15 +222,9 @@ form#search {
 	}
 	
 	button {
-		background: #a1b25e;
-		border-bottom: 2px solid #91a150;
-		text-shadow: 0 -2px 0 #91a150;
-		color: #fff;
 		position: absolute;
 		top: 0; right: 0;
 		height: 100%;
-		cursor: pointer;
-    text-transform: uppercase;
     font-size: 0.85em;
 	}
 }
@@ -192,23 +235,33 @@ form#search {
 		font-size: 0.8em;
 		text-transform: uppercase;
 		background: image-url('horiz-bar.gif') repeat-x 0 50%;
-		color: #555;
+		color: $alt-text-color;
+    @include clearfix;
 		
-		p {
+		p, a {
 			background: #fff;
 			display: inline-block;
-			padding-right: 5px;
 		}
+    p {
+      float: left;
+      padding-right: 5px;
+    }
+    a {
+      float: right;
+      padding-left: 5px;
+      text-transform: none;
+      @extend .info;
+    }
 	}
 	
 	ol {
 		li {
 			margin-top: 1em;
+      word-wrap: break-word;
 			
 			cite {
 				color: #a1b25e;
 				font-size: 0.8em;
-        word-wrap: break-word;
 			}
 			p {
 				margin-top: 0.5em;
@@ -220,4 +273,138 @@ form#search {
 			}
 		}
 	}
+}
+
+#footer {
+	font-size: 0.8em;
+	color: #ccc;
+  li {
+    display: inline;
+    &:after {
+      content: '\2219';
+      margin: 0 0.5em;
+      color: $alt-text-color;
+    }
+    &:last-child:after {
+      content: '';
+    }
+    a {
+      @extend .info;
+    }
+  }
+}
+
+/* comment form */
+#comment {
+  .success {
+    @extend .hidden;
+    @include clearfix;
+    margin: 0;
+    
+    button[rel=close] {
+      float: right;
+      margin-top: 0.5em;
+      border: 0;
+      color: inherit;
+      background: none;
+      font-weight: bold;
+      padding: 0;
+    }
+  }
+  form {
+    legend {
+      width: 100%;
+    }
+    li {
+      @include clearfix;
+      border-bottom: 1px solid #eee;
+      padding: 0.5em 0;
+      color: $alt-text-color;
+    
+      &:last-child {
+        border-bottom: 0;
+      }
+      label {
+        width: 100px;
+        color: $text-color;
+      }
+      label, input, textarea {
+        float: left;
+      }
+      textarea {
+        width: 300px - 2px - 10px;
+        padding: 5px;
+        min-height: 75px;
+        border: 1px solid #ddd;
+        outline: none;
+      }
+    }
+    button {
+      float: right;
+      margin: 0.5em 0 0 0.5em;
+    }
+  }
+}
+
+#about {
+  p {
+    margin-bottom: 1em;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    a {
+      @extend .info;
+    }
+  }
+}
+
+/* modals.. */
+.modal {
+  z-index: 1001;
+  text-align: left;
+  display: none;
+  font-size: 0.8em;
+  
+  legend, h3, h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.25em;
+    margin-bottom: 0.5em;
+  }
+  
+  button {
+    font-size: 1em;
+  }
+  
+  /* shades out bg */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    z-index: 1000;
+  }
+  
+  /* fixes vertical position */
+  .modal-wrap {
+    position: fixed;
+    top: 30%; width: 100%;
+    z-index: 1002;
+  
+    .modal-inner {
+      width: 400px;
+      position: relative;
+      margin: 0 auto;
+      background: #fff;
+      @include box-shadow(0 0 10px #333);
+      padding: 0.75em;
+    }
+  }
 }

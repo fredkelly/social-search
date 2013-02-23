@@ -1,20 +1,27 @@
 !!!
 %html
-  %head
-    %title Social Search
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
-    = csrf_meta_tags
-  %body{class: ('splash' if current_page?(root_path))}
-    #header
-      .container
-        %h1#logo
-          = link_to root_path do
-            = responsive_image_tag 'logo.png'
-        = display_flash.html_safe
-    #content
-      .container
-        = yield
-    #footer
-      .container
-        %p (c) Fred Kelly 2013 (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)} ago).
+	%head
+		%title Social Search
+		= stylesheet_link_tag 'application', media: 'all'
+		= javascript_include_tag 'application'
+		= csrf_meta_tags
+	%body{class: ('splash' if current_page?(root_path))}
+		#header
+			.container
+				%h1#logo
+					= link_to root_path do
+						= responsive_image_tag 'logo.png'
+				= display_flash.html_safe
+		#content
+			.container
+				= yield
+		#footer
+			.container
+				%ul
+					%li (c) Fred Kelly 2013 (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)} ago)
+					%li= modal_link 'What is this?', :about
+		
+		- if current_page?(controller: 'search', action: 'create')			
+			= render 'comment_form' # used in results.html.haml
+		
+		= render 'about' # info page

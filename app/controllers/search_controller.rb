@@ -13,10 +13,19 @@ class SearchController < ApplicationController
     rescue Exception => error
       flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : "(#{error})")
     end
-    
+
     respond_to do |format|
       format.html { render :results }
       format.json { render json: { query: @search.query, size: @search.results.size, results: @search.results } }
+    end
+  end
+  
+  # add feedback (to be AJAX'd)
+  def comment
+    @comment = current_session.searches.find(params[:search_id]).comments.create!(params.slice(:rating, :comment))
+    
+    respond_to do |format|
+      format.json { render json: @comment.valid? ? @comment : { errors: @comment.errors.full_messages } }
     end
   end
 end

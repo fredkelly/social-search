@@ -29,7 +29,7 @@ class TestEngine < Engine
           # print cluster & samples
           CustomLogger.info "\nCluster #{position}..\n\t".red + cluster.objects.join("\n\t") + "\n..scraping \"#{result.url}\"..".magenta + "\n"
         rescue ActiveRecord::RecordNotSaved => error
-          CustomLogger.info "Skipped a cluster (failed validation).. (#{error})\n".red
+          CustomLogger.info "Skipped a cluster (failed validation: #{error})..\n".red
           position = position - 1 # skip count
         end
       end

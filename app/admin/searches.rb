@@ -15,18 +15,31 @@ ActiveAdmin.register Search do
   end
   
   show do
-    panel 'Results' do
-      table_for search.results do
-        column :title
-        column 'Description' do |result|
-          truncate(result.description, length: 100)
+    unless search.results.empty?
+      panel 'Results' do
+        table_for search.results do
+          column :title
+          column 'Description' do |result|
+            truncate(result.description, length: 100)
+          end
+          column 'Selected?' do |result|
+            [result.selected?, ("(#{result.selected_at})" if result.selected?)].join(' ')
+          end
+          column :position
         end
-        column 'Selected?' do |result|
-          [result.selected?, ("(#{result.selected_at})" if result.selected?)].join(' ')
-        end
-        column :position
       end
     end
+    
+    unless search.comments.empty?
+      panel 'Comments' do
+        table_for search.comments do
+          column 'Created', :created_at
+          column :rating
+          column :comment
+        end
+      end
+    end
+    
     default_main_content
   end
 end

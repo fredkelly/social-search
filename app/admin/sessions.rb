@@ -40,16 +40,18 @@ ActiveAdmin.register Session do
       end
     end
     
-    panel 'Searches' do
-      table_for session.searches do
-        column :id
-        column :query
-        column 'Created', :created_at
-        column 'Results #' do |search|
-          search.results.size # needs count-caching (link?)
-        end
-        column 'Success?' do |search|
-          search.success?
+    unless session.searches.empty?
+      panel 'Searches' do
+        table_for session.searches do
+          column :id
+          column :query
+          column 'Created', :created_at
+          column 'Results #' do |search|
+            search.results.size # needs count-caching (link?)
+          end
+          column 'Success?' do |search|
+            search.success?
+          end
         end
       end
     end

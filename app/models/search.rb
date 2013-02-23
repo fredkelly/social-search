@@ -3,6 +3,7 @@ class Search < ActiveRecord::Base
   
   belongs_to :session, touch: true
   has_many :results, dependent: :destroy
+  has_many :comments, dependent: :destroy
   
   validates :query, presence: true
   
