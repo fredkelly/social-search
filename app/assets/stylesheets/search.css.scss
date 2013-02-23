@@ -301,6 +301,11 @@ form#search {
     @include clearfix;
     margin: 0;
     
+    h4 {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+    
     button[rel=close] {
       float: right;
       margin-top: 0.5em;
@@ -308,6 +313,7 @@ form#search {
       color: inherit;
       background: none;
       font-weight: bold;
+      text-shadow: none;
       padding: 0;
     }
   }
@@ -375,7 +381,7 @@ form#search {
     margin-bottom: 0.5em;
   }
   
-  button {
+  button, .error, .warning, .success, .message {
     font-size: 1em;
   }
   
