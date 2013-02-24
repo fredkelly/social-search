@@ -21,7 +21,7 @@
 					%li (c) Fred Kelly 2013 (updated #{time_ago_in_words(Rails.application.class::FILE_VERSION)} ago)
 					%li= modal_link 'What is this?', :about
 		
-		- if current_page?(controller: 'search', action: 'create')			
+		- if current_page?(controller: 'search', action: 'create')
 			= render 'comment_form' # used in results.html.haml
 		
 		= render 'about' # info page

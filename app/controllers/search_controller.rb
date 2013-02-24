@@ -10,8 +10,8 @@ class SearchController < ApplicationController
     # TODO: limit based on created_at
     begin
       @search = current_session.searches.where(query: params[:query]).first_or_create
-    rescue Exception => error
-      flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : "(#{error})")
+    rescue StandardError => error
+      flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : " (#{error})")
     end
 
     respond_to do |format|

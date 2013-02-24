@@ -28,11 +28,16 @@ class Page
         response = super(url, no_follow: false) # HTTP request - follows redirects
       end
     rescue Exception => error # HTTParty::RedirectionTooDeep or Timeout::Error
-      Rails.logger.info "Gave up scraping page (#{error})."
+      # try re-escaping url
+      if url != self.escape(url)
+        url = self.escape(url)
+        retry
+      end
+      CustomLogger.info "Gave up scraping page (#{error}).".red
       return nil
     end
-    # ignore short urls
-    return nil if response.request.last_uri.host.size < 10 || IGNORED_HOSTS.include?(response.request.last_uri.host.gsub('www.',''))
+    # ignore short urls etc. - move to Exception?
+    return nil if self.bad_response?(response)
     # genearte instance using Nokogiri::Document & resolved URL
     self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
   end
@@ -59,5 +64,20 @@ class Page
       next if p.inner_text.size < 100
       p.inner_text.gsub(/[\s|<\/?.*>\s]+/, ' ').gsub(/[^0-9A-Za-z'\.\s]/, '').strip
     end.compact.join(' ')[0..500] # limit to 500 chars
+  end
+  
+  private
+  
+  def self.escape(url)
+    url.strip! if url.is_a?(String)
+    URI.parse(URI.encode(url)).to_s
+  end
+  
+  def self.bad_response?(response)
+    (
+      response.code != 200 \
+      or response.request.last_uri.host.size < 10 \
+      or IGNORED_HOSTS.include?(response.request.last_uri.host.gsub('www.',''))
+    )
   end
 end

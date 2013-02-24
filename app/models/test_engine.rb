@@ -3,23 +3,30 @@ class TestEngine < Engine
   SEARCH_OPTS = {
     rpp: 100,
     lang: :en,
-    result_type: :mixed
+    result_type: :mixed,
+    include_entities: true
   }
   
-  def initialize(search)
-    @samples = search(expanded = self.class.expand_query(search.query)).results
+  def initialize(search)    
+    begin
+      @samples = search(expanded = self.class.expand_query(search.query)).results
+    rescue Twitter::Error => error
+      raise $!, "Unable to retrieve Tweets: #{$!}", $!.backtrace
+      return # stop here..
+    end
     
     # debug for live demo
-    CustomLogger.info "New search for \"#{search.query}\", expanded to \"#{expanded}\", found #{@samples.size} tweets.".red.on_black
+    CustomLogger.info "\n[#{Time.now}] New search for \"#{search.query}\", expanded to \"#{expanded}\", found #{@samples.size} tweets.".red.on_black
     
     # must rebuild this into it's own class (and get rid of gem!)
     @clusters = Clusterer::Clustering.cluster(:hierarchical, @samples,
-                                                no_stem: true,
+                                                no_stem: false,
                                                 tokenizer: :simple_ngram_tokenizer
                                               ) {|t| t.text}
     
+    result = nil
     @clusters.sort.each_with_index do |cluster, position|
-      unless cluster.url.nil?        
+      unless cluster.url.nil?
         begin
           # throws an error if validation fails
           result = search.results.create!(
@@ -28,8 +35,10 @@ class TestEngine < Engine
           )
           # print cluster & samples
           CustomLogger.info "\nCluster #{position}..\n\t".red + cluster.objects.join("\n\t") + "\n..scraping \"#{result.url}\"..".magenta + "\n"
-        rescue ActiveRecord::RecordNotSaved => error
-          CustomLogger.info "Skipped a cluster (failed validation: #{error})..\n".red
+          CustomLogger.info "\nImage URLs:\n" + cluster.image_urls.join("\n\t")
+        rescue StandardError => error
+          CustomLogger.info "Skipped a cluster (#{error})..\n\n".red
+          CustomLogger.info "ActiveRecord said:" + result.errors.full_messages.join("\n\t") if error.is_a?(ActiveRecord::RecordNotSaved)
           position = position - 1 # skip count
         end
       end
@@ -44,7 +53,7 @@ class TestEngine < Engine
   # WIP
   def self.expand_query(query, concat_length = 2)
     terms = query.split.permutation(concat_length).map(&:join) << query
-    (terms.map{|t| [t, '#' + t] + (t.stem != t ? [t.stem, '#' + t.stem] : [])}.flatten).join(' OR ')
+    (terms.map{|t| [t, '#' + t, '@' + t] + (t.stem != t ? [t.stem, '#' + t.stem, '@' + t.stem] : [])}.flatten).join(' OR ')
   end
 end
 
@@ -55,8 +64,12 @@ class Twitter::Tweet
     urls.map(&:expanded_url)
   end
   
-  def images
-    entities.media.map(&:media_url)
+  def image_urls
+    media.map(&:media_url)
+  end
+  
+  def instagrams
+    # WIP
   end
 end
 
@@ -72,6 +85,10 @@ class Clusterer::Cluster
   
   def url
     objects.map(&:expanded_urls).flatten.mode # take most frequent
+  end
+  
+  def image_urls
+    objects.map(&:media).flatten.uniq
   end
   
   # add images method! can get from entities excl. instagram

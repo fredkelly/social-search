@@ -81,6 +81,11 @@ and (max-device-width : 480px) {
       font-weight: bold;
     }
 	}
+  
+  /* hide models on iOS (hack) */
+  a[rel=modal] {
+    display: none;
+  }
 }
 
 #header, #content, #navigation, #footer {
@@ -280,12 +285,13 @@ form#search {
 	color: #ccc;
   li {
     display: inline;
-    &:after {
+    &:before {
       content: '\2219';
       margin: 0 0.5em;
       color: $alt-text-color;
     }
-    &:last-child:after {
+    &:first-child:before,
+    &:only-child:before {
       content: '';
     }
     a {
@@ -410,7 +416,7 @@ form#search {
       margin: 0 auto;
       background: #fff;
       @include box-shadow(0 0 10px #333);
-      padding: 0.75em;
+      padding: 1em;
     }
   }
 }

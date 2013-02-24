@@ -7,16 +7,17 @@ class Result < ActiveRecord::Base
   #validates :title, :url, :description, presence: true, if: :has_page?
   
   #validates_length_of :description, minimum: 20
-  validates_uniqueness_of :url, scope: [:search_id],
-    message: Proc.new {|error,attrs| "URL \"#{attrs[:url]}\" already found in this search."}
   
+  # NB: will validate on short URL before resolved URL is saved
+  validates_uniqueness_of :url, scope: [:search_id], message: "URL %{value} already found in this search."
+    
   # order by position
   default_scope order: 'position ASC'
   
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
-  before_create :scrape_page, if: Proc.new { self.source_engine::SCRAPED }
+  before_validation :scrape_page, if: Proc.new { self.source_engine::SCRAPED }, on: :create
   
   def selected
     self.selected_at ||= Time.now
@@ -40,22 +41,21 @@ class Result < ActiveRecord::Base
   end
   
   # checks if page is accessible
-  # TODO: reject non-200 response codes
+  # TODO: reject non-200 response codes?
   def has_page?
-    !(page.nil? || page.document.nil?)
+    if page.nil? || page.document.nil?
+      errors.add(:page, "can not be nil")
+      return false
+    end
+    true
   end
   
   # Set attributes sourced from scraped page
   def scrape_page
-    # fail if we can't scrape document
-    return false unless has_page?
-    
     # grab scraped attributes
     self.url          = page.url # gives a resolved url
     self.title        = page.title
     self.description  = page.description
-    
-    return valid?
   end
   
   # convert to constant
