@@ -7,9 +7,9 @@ jQuery ->
 	$('input#query').focus().val($("input#query").val())
 	
 	# track result clicks
-	$('.results li a').click (e) ->
-		e.preventDefault()
-		window.location = $(this).data('url')
+#	$('.results li a').click (e) ->
+#		e.preventDefault()
+#		window.location = $(this).data('url')
 	
 	# retina images
 	$('img').hisrc()
