@@ -9,8 +9,8 @@ ActiveAdmin.register Search do
     column 'Results #' do |search|
       search.results.size # needs count-caching (link?)
     end
-    column 'Success?' do |search|
-      search.success?
+    column 'successful?' do |search|
+      search.successful?
     end
   end
   

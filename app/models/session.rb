@@ -6,6 +6,11 @@ class Session < ActiveRecord::Base
   
   alias_attribute :to_s, :session_id
   
+  # statistics
+  define_calculated_statistic :percentage_returning do
+    (all.map(&:returning?).count(true) / all.size).to_f
+  end
+  
   # Generates or retrieves instance based
   # on supplied <tt>ActionDispatch::Request</tt>.
   def self.find_or_create_by_request(request)
@@ -31,5 +36,15 @@ class Session < ActiveRecord::Base
   
   def app_version_latest?
     app_version == Rails.application.class::FILE_VERSION
+  end
+  
+  def previous_sessions
+    self.class.where(['remote_ip = ? AND id != ?', remote_ip, id])
+  end
+  
+  # returning visit iff another session of the same
+  # remote_ip exists at least a day in the past
+  def returning?(since = 1.day.ago)
+    !previous_sessions.where('created_at <= ?', since).empty?
   end
 end

@@ -1,7 +1,7 @@
 #navigation
 	= render 'form'
 .results
-	- if @search.nil? or @search.results.empty?
+	- if @search.nil? or @search.results.length == 0 # temp counter_cache fix
 		#info
 			%p Sorry, I couldn't find that!
 	- else

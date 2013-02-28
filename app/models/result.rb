@@ -12,12 +12,24 @@ class Result < ActiveRecord::Base
   validates_uniqueness_of :url, scope: [:search_id], message: "URL %{value} already found in this search."
     
   # order by position
-  default_scope order: 'position ASC'
+  #default_scope order: 'position ASC'
   
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
   before_validation :scrape_page, if: Proc.new { self.source_engine::SCRAPED }, on: :create
+  
+  # statistics
+  define_calculated_statistic :average_selections do
+    (selected.size / all.size).to_f
+  end
+  
+  # + 1 as positions are zero-indexed
+  define_statistic :average_selected_position, average: :selected, column_name: 'position + 1'
+  
+  # PostgreSQL dependent!
+  define_statistic :average_time_to_select, average: :selected, joins: :search,
+    column_name: 'extract(epoch from (selected_at - searches.created_at))'
   
   def selected
     self.selected_at ||= Time.now

@@ -15,6 +15,7 @@ gem 'twitter'
 gem 'clusterer'
 gem 'stemmer'
 gem 'activeadmin'
+gem 'statistics'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

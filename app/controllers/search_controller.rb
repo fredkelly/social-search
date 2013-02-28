@@ -13,7 +13,7 @@ class SearchController < ApplicationController
     rescue StandardError => error
       flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : " (#{error})")
     end
-
+    
     respond_to do |format|
       format.html { render :results }
       format.json { render json: { query: @search.query, size: @search.results.size, results: @search.results } }

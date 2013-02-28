@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228114933) do
+ActiveRecord::Schema.define(:version => 20130228200111) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -95,5 +95,17 @@ ActiveRecord::Schema.define(:version => 20130228114933) do
   add_index "sessions", ["app_version"], :name => "index_sessions_on_app_version"
   add_index "sessions", ["referer"], :name => "index_sessions_on_referer"
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+
+  create_table "statistics_aggregates", :force => true do |t|
+    t.float    "searches_average_results"
+    t.float    "searches_percentage_successful"
+    t.float    "results_average_selections"
+    t.float    "results_average_selected_position"
+    t.float    "results_average_time_to_select"
+    t.float    "sessions_percentage_returning"
+    t.float    "comments_average_rating"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
 
 end

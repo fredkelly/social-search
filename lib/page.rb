@@ -39,7 +39,7 @@ class Page
     # ignore short urls etc. - move to Exception?
     return nil if self.bad_response?(response)
     # genearte instance using Nokogiri::Document & resolved URL
-    self.new(response.parsed_response, response.request.last_uri.to_s) # if response.success?
+    self.new(response.parsed_response, response.request.last_uri.to_s) # if response.successful?
   end
     
   def description

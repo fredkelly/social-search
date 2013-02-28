@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  searches_average_results: 1.5
+  searches_percentage_successful: 1.5
+  results_average_selections: 1.5
+  results_average_selected_position: 1.5
+  results_average_time_to_select: 1.5
+  sessions_percentage_returning: 1.5
+  comments_average_rating: 1.5
+
+two:
+  searches_average_results: 1.5
+  searches_percentage_successful: 1.5
+  results_average_selections: 1.5
+  results_average_selected_position: 1.5
+  results_average_time_to_select: 1.5
+  sessions_percentage_returning: 1.5
+  comments_average_rating: 1.5
