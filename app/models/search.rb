@@ -29,6 +29,15 @@ class Search < ActiveRecord::Base
     results.map(&:selected?).reduce(&:|)
   end
   
+  # searches by same session within the last x mins
+  def retried_from(mins = 30)
+    session.searches.where('id != ?', id).where(created_at: mins.minutes.ago..created_at)
+  end
+  
+  def retried?
+    !retried_from.empty?
+  end
+  
   private
   
   # here we will call KMeans etc. to actually

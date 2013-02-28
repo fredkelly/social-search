@@ -1,7 +1,7 @@
 class Result < ActiveRecord::Base
   attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine
   
-  belongs_to :search, dependent: :destroy, touch: true
+  belongs_to :search, dependent: :destroy, touch: true, counter_cache: true
   
   # WIP
   #validates :title, :url, :description, presence: true, if: :has_page?
