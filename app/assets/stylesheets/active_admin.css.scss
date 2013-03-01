@@ -27,3 +27,27 @@
 // .active_admin       applies to any Active Admin namespace
 // .admin_namespace    applies to the admin namespace (eg: /admin)
 // .other_namespace    applies to a custom namespace named other (eg: /other)
+
+.active_admin li span {
+  color: #b3bcc1;
+  font-style: italic;
+}
+
+.active_admin .bobbograph canvas {
+  width: 100%;
+  min-height: 200px;
+  margin-top: 5px;
+}
+
+body.active_admin .section > div, body.active_admin .panel > div {
+  padding-bottom: 10px;
+}
+
+body.active_admin.admin_dashboard .columns .column {
+  width: 31.33% !important;
+  
+  &::nth-child(3n+1) {
+    clear: left;
+    margin-right: 0 !important;
+  }
+}

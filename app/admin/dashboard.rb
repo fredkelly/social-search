@@ -3,31 +3,53 @@ ActiveAdmin.register_page "Dashboard" do
   menu :priority => 1, :label => proc{ I18n.t("active_admin.dashboard") }
 
   content :title => proc{ I18n.t("active_admin.dashboard") } do
-    #div :class => "blank_slate_container", :id => "dashboard_default_message" do
-    #  span :class => "blank_slate" do
-    #    span I18n.t("active_admin.dashboard_welcome.welcome")
-    #    small I18n.t("active_admin.dashboard_welcome.call_to_action")
-    #  end
-    #end
-
-    # Here is an example of a simple dashboard with columns and panels.
-    #
+    
     columns do
       column do
         panel "Recent Searches" do
           ul do
             Search.last(5).reverse.map do |search|
-              li link_to(search.query, admin_search_path(search))
+              li link_to "\"#{search.query}\"", admin_search_path(search) do
+                span "#{time_ago_in_words(search.created_at)} ago"
+              end
             end
           end
         end
       end
-
+      
       column do
-        panel "Welcome" do
-          para "Welcome to Social Search admin."
+        panel "Recent Comments" do
+          ul do
+            Comment.last(5).reverse.map do |comment|
+              li link_to "\"#{comment.comment}\" (#{comment.rating}/5)", admin_search_path(comment.search) do
+                span "#{time_ago_in_words(comment.created_at)} ago"
+              end
+            end
+          end
+        end
+      end
+      
+      column do
+        db = ActiveRecord::Base.connection.execute("SELECT pg_size_pretty(pg_database_size('postgres'))").first
+        panel "System Information" do
+          para "DB size: #{db['pg_size_pretty']}, Latest aggregate @ #{StatisticsAggregate.last.created_at}."
+        end
+      end
+    
+    end
+    
+    unless StatisticsAggregate.count < 2
+      columns do
+        StatisticsAggregate.as_time_series.each do |column, series|
+          column do
+            panel "#{column.to_s.humanize} (7 days)" do
+              render 'graph', column: column, series: series
+            end
+          end
         end
       end
     end
+    
+                
   end # content
 end
