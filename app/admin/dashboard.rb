@@ -30,9 +30,8 @@ ActiveAdmin.register_page "Dashboard" do
       end
       
       column do
-        db = ActiveRecord::Base.connection.execute("SELECT pg_size_pretty(pg_database_size('postgres'))").first
         panel "System Information" do
-          para "DB size: #{db['pg_size_pretty']}, Latest aggregate @ #{StatisticsAggregate.last.created_at}."
+          para "Latest aggregate @ #{StatisticsAggregate.last.created_at}."
         end
       end
     
