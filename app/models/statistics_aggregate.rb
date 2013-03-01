@@ -11,6 +11,14 @@ class StatisticsAggregate < ActiveRecord::Base
   
   IGNORED_COLUMNS = %w(id created_at updated_at)
   
+  # only one aggregation/date
+  def unique_date
+    unless self.class.where('date(created_at) = ?', Date.today).empty?
+      errors.add(:created_at, "date must be unique")
+    end
+  end
+  validate :unique_date
+  
   def self.as_time_series(scope = :this_week)
     series = {}
     data = send(scope)
