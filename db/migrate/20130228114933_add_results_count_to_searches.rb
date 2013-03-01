@@ -6,8 +6,8 @@ class AddResultsCountToSearches < ActiveRecord::Migration
     Search.reset_column_information
     
     # update counts for existing searches
-    Search.all.each do |s|
-      s.update_attribute :results_count, s.results.length
+    Search.find_each do |s|
+      Search.reset_counters s.id, :results
     end
   end
   
