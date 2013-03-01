@@ -31,7 +31,7 @@ ActiveAdmin.register_page "Dashboard" do
       
       column do
         panel "System Information" do
-          para "Latest aggregate @ #{StatisticsAggregate.last.created_at}."
+          para "Latest aggregate @ #{StatisticsAggregate.last.created_at rescue 'never'}."
         end
       end
     
