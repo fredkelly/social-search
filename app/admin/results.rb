@@ -1,5 +1,5 @@
 ActiveAdmin.register Result do
-  index :as => :grid do
+  index do
     column 'ID' do |result|
       link_to result.id, admin_result_path(result)
     end
