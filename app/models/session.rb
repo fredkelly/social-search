@@ -6,6 +6,10 @@ class Session < ActiveRecord::Base
   
   alias_attribute :to_s, :session_id
   
+  # geocoding
+  geocoded_by :remote_ip
+  after_validation :geocode
+  
   # statistics
   define_calculated_statistic :percentage_returning do
     (all.map(&:returning?).count(true) / all.size).to_f

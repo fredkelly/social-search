@@ -16,6 +16,7 @@ gem 'clusterer'
 gem 'stemmer'
 gem 'activeadmin'
 gem 'statistics'
+gem 'geocoder'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

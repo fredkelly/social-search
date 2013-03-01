@@ -71,6 +71,7 @@ GEM
     fastercsv (1.5.5)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    geocoder (1.1.6)
     haml (4.0.0)
       tilt
     haml-rails (0.4)
@@ -187,6 +188,7 @@ DEPENDENCIES
   bourbon
   clusterer
   coffee-rails (~> 3.2.1)
+  geocoder
   haml-rails
   hisrc-rails
   httparty

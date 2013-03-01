@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228200111) do
+ActiveRecord::Schema.define(:version => 20130301184941) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(:version => 20130228200111) do
     t.datetime "updated_at",      :null => false
     t.datetime "app_version"
     t.string   "referer"
+    t.float    "longitude"
+    t.float    "latitude"
   end
 
   add_index "sessions", ["app_version"], :name => "index_sessions_on_app_version"

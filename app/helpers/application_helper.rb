@@ -23,4 +23,8 @@ module ApplicationHelper
   def modal_link(text, id)
     link_to(text, '#', rel: 'modal', data: { modal: id })
   end
+  
+  def static_map(longitude, latitude, opts = { :width => 300, :height => 300})
+    image_tag("http://maps.google.com/maps/api/staticmap?size=#{opts[:width]}x#{opts[:height]}&sensor=false&zoom=10&markers=#{latitude}%2C#{longitude}", opts)
+  end
 end

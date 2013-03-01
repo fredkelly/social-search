@@ -20,21 +20,51 @@ ActiveAdmin.register Session do
   end
   
   show do
-    # hacky!
-    panel 'User Agent' do
-      div class: 'attributes_table' do
-        table do
-          tr do
-            th 'Name'
-            td session.user_agent.name
+    columns do
+      column do
+        attributes_table do
+          row :id
+          row :session_id
+          row :remote_ip
+          row :accept_language
+          row :accept_charset
+          row :accept
+          row :created_at
+          row :app_version do |session|
+            [session.app_version, ('(latest)' if session.app_version_latest?)].join(' ')
           end
-          tr do
-            th 'Version'
-            td session.user_agent.version
+          row :referer
+          row :duration do |session|
+            "%0.2f secs" % session.duration
           end
-          tr do
-            th 'OS'
-            td session.user_agent.os
+          row 'Searches #' do |searches|
+            session.searches.size
+          end
+        end
+      end
+      
+      column do
+        # hacky!
+        panel 'User Agent' do
+          div class: 'attributes_table' do
+            table do
+              tr do
+                th 'Name'
+                td session.user_agent.name
+              end
+              tr do
+                th 'Version'
+                td session.user_agent.version
+              end
+              tr do
+                th 'OS'
+                td session.user_agent.os
+              end
+              tr do
+                th 'Location'
+                td static_map(session.longitude, session.latitude)
+              end
+            end
           end
         end
       end
@@ -53,26 +83,6 @@ ActiveAdmin.register Session do
             search.successful?
           end
         end
-      end
-    end
-    
-    attributes_table do
-      row :id
-      row :session_id
-      row :remote_ip
-      row :accept_language
-      row :accept_charset
-      row :accept
-      row :created_at
-      row :app_version do |session|
-        [session.app_version, ('(latest)' if session.app_version_latest?)].join(' ')
-      end
-      row :referer
-      row :duration do |session|
-        "%0.2f secs" % session.duration
-      end
-      row 'Searches #' do |searches|
-        session.searches.size
       end
     end
   end
