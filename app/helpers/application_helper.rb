@@ -27,4 +27,8 @@ module ApplicationHelper
   def static_map(longitude, latitude, opts = { :width => 300, :height => 300})
     image_tag("http://maps.google.com/maps/api/staticmap?size=#{opts[:width]}x#{opts[:height]}&sensor=false&zoom=10&markers=#{latitude}%2C#{longitude}", opts)
   end
+  
+  def image_url(source)
+    URI.join(root_url, image_path(source))
+  end
 end
