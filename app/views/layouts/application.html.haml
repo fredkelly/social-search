@@ -5,6 +5,10 @@
 		= stylesheet_link_tag 'application', media: 'all'
 		= javascript_include_tag 'application'
 		= csrf_meta_tags
+		%meta(property="og:title" content="Social Search")
+		%meta(property="og:url" content="http://search.brogr.am/")
+		%meta(property="og:image" content="#{image_path('logo@2x.png')}")
+		%meta(property="og:description" content="This search engine generates results by searching Twitter for your query and forming clusters based on similarity of the returned Tweets.")
 	%body{class: ('splash' if current_page?(root_path))}
 		#header
 			.container
