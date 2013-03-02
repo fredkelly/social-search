@@ -22,7 +22,7 @@ class Session < ActiveRecord::Base
       [:accept, :accept_charset, :accept_language, :remote_ip, :user_agent].each do |key|
         session[key] = request.send(key)
       end
-      session.referer = request.params.slice(:referer, :ref).values.first || session.referer || URI(request.referer).host
+      session.referer ||= request.params.slice(:referer, :ref).values.first
       session.app_version ||= Rails.application.class::FILE_VERSION
       session.save!
     end
