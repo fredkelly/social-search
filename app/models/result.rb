@@ -12,7 +12,7 @@ class Result < ActiveRecord::Base
   validates_uniqueness_of :url, scope: [:search_id], message: "URL %{value} already found in this search."
     
   # order by position
-  #default_scope order: 'position ASC'
+  default_scope order: 'position ASC'
   
   scope :selected, where('selected_at IS NOT NULL')
   
