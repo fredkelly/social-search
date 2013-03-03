@@ -29,7 +29,7 @@ class Result < ActiveRecord::Base
   
   # PostgreSQL dependent!
   define_statistic :average_time_to_select, average: :selected, joins: :search,
-    column_name: 'extract(epoch from (selected_at - searches.created_at))'
+    column_name: 'EXTRACT(EPOCH FROM (selected_at - searches.created_at))'
   
   def selected
     self.selected_at ||= Time.now

@@ -12,7 +12,7 @@ class Session < ActiveRecord::Base
   
   # statistics
   define_calculated_statistic :percentage_returning do
-    (all.map(&:returning?).count(true) / all.size).to_f
+    (find(:all, 'DISTINCT remote_ip').map(&:returning?).count(true) / all.size).to_f
   end
   
   # Generates or retrieves instance based
