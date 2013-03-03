@@ -11,6 +11,17 @@ class StatisticsAggregate < ActiveRecord::Base
   
   IGNORED_COLUMNS = %w(id created_at updated_at)
   
+  # friendly names for columns
+  FRIENDLY_NAMES = {
+    :comments_average_rating => "Rating (via Comments)",
+    :results_average_selected_position => "Position of Selected Results",
+    :results_average_selections => "No. of Selected Results",
+    :results_average_time_to_select => "Time Taken to Select a Result",
+    :searches_average_results => "Results per Search",
+    :searches_percentage_successful => "% Successful Searches",
+    :sessions_percentage_returning => "% Returning Visitors"
+  }
+  
   # only one aggregation/date
   def unique_date
     unless self.class.where('date(created_at) = ?', Date.today).empty?
