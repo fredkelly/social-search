@@ -41,7 +41,7 @@ ActiveAdmin.register_page "Dashboard" do
       columns do
         StatisticsAggregate.as_time_series.each do |column, series|
           column do
-            panel "#{column.to_s.humanize} (7 days)" do
+            panel "#{StatisticsAggregate::FRIENDLY_NAMES[column]} (7 days)" do
               render 'graph', column: column, series: series
             end
           end
