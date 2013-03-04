@@ -24,7 +24,7 @@ class Session < ActiveRecord::Base
       end
       # ?ref=X or ?referer=X
       referer = request.params.slice(:referer, :ref).values.first
-      session.referer = referer.empty? ? session.referer : referer
+      session.referer ||= referer.empty? ? nil : referer
       session.app_version ||= Rails.application.class::FILE_VERSION
       session.save!
     end
