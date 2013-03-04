@@ -350,6 +350,20 @@ form#search {
         border: 1px solid #ddd;
         outline: none;
       }
+      #rating {
+        &:before, &:after {
+          color: #777;
+        }
+        &:before {
+          content: '-';
+          float: left;
+          margin-right: 5px;
+        }
+        &:after {
+          content: '+';
+          margin-left: 5px;
+        }
+      }
     }
     button {
       float: right;

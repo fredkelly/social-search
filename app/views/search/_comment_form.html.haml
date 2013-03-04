@@ -13,8 +13,9 @@
 						"#{@search.query}"
 					%li
 						= label_tag 'Rating:'
-						- for i in 1..5
-							= radio_button_tag :rating, i, i == 3
+						#rating
+							- for i in 1..5
+								= radio_button_tag :rating, i, i == 3
 					%li
 						= label_tag 'Comment:'
 						= text_area_tag :comment, nil, placeholder: 'Your message..'

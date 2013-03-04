@@ -39,6 +39,7 @@ class StatisticsAggregate < ActiveRecord::Base
     series
   end
   
+  # should be relative to created_at if exists?
   def collect_statistics(since = 1.day.ago)
     [Search, Result, Session, Comment].each do |model|
       model.where(created_at: since..0.ago).statistics.each do |key, value|
