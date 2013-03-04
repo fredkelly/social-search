@@ -22,10 +22,14 @@ class Session < ActiveRecord::Base
       [:accept, :accept_charset, :accept_language, :remote_ip, :user_agent].each do |key|
         session[key] = request.send(key)
       end
+      
       # ?ref=X or ?referer=X
       referer = request.params.slice(:referer, :ref).values.first
-      session.referer ||= referer.empty? ? nil : referer
+      session.referer = referer.blank? ? session.referer : referer
+      
+      # datetime of last push
       session.app_version ||= Rails.application.class::FILE_VERSION
+      
       session.save!
     end
   end
