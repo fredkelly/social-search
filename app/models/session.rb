@@ -43,7 +43,7 @@ class Session < ActiveRecord::Base
   end
   
   def previous_sessions
-    self.class.where(['remote_ip = ? AND id != ?', remote_ip, id])
+    self.class.unscoped.where(['remote_ip = ? AND id != ?', remote_ip, id])
   end
   
   # returning visit iff another session of the same
