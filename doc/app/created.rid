@@ -1,0 +1,9 @@
+Thu, 07 Mar 2013 16:22:32 +0000
+doc/README_FOR_APP	Thu, 07 Mar 2013 15:16:14 +0000
+app/controllers/application_controller.rb	Thu, 07 Mar 2013 15:16:14 +0000
+app/controllers/search_controller.rb	Thu, 07 Mar 2013 15:46:06 +0000
+app/helpers/application_helper.rb	Thu, 07 Mar 2013 15:16:14 +0000
+app/helpers/search_helper.rb	Thu, 07 Mar 2013 15:26:09 +0000
+lib/clustering/clusterer.rb	Thu, 07 Mar 2013 16:22:01 +0000
+lib/clustering/document.rb	Thu, 07 Mar 2013 16:20:36 +0000
+lib/clustering/tokeniser.rb	Thu, 07 Mar 2013 16:19:32 +0000

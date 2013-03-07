@@ -1,5 +1,5 @@
 %h1 Search#show
 %p Find me in app/views/search/show.html.haml
 %ul
-  - @tweets.each do |tweet|
-    %li= tweet.class
+  - @clusters.each do |cluster|
+    %li= cluster.centroid.text
