@@ -33,7 +33,7 @@ module Clustering
     # computes ratio of intersection to union size
     def self.intersection_size(a, b)      
       return 0.0 if a.empty? or b.empty?
-      (a & b).size.to_f / (a + b).uniq.size
+      1.0 - (a & b).size.to_f / (a | b).size
     end
     
   end

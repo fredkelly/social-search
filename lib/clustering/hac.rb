@@ -2,7 +2,7 @@ module Clustering
   # Hierarchical Agglomerative Clustering
   class HAC < Clusterer
     
-    DELTA_THRESHOLD = 0.8
+    DELTA_THRESHOLD = 0.8 # lower => more separation
     
     # naive approach O(n^3)
     # http://www.graphics.cornell.edu/~bjw/IRT08Agglomerative.pdf

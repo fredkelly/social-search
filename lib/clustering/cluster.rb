@@ -9,7 +9,7 @@ module Clustering
     end
     
     def tokens
-      @documents.map(&:tokens).flatten.uniq
+      @documents.map(&:tokens).reduce(&:+).uniq
     end
     
   end
