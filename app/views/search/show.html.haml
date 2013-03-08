@@ -1,5 +1,9 @@
 %h1 Search#show
 %p Find me in app/views/search/show.html.haml
 %ul
-  - @clusters.each do |cluster|
-    %li= cluster.centroid.text
+	- @clusters.each_with_index do |cluster, index|
+		%li
+			%h2 Cluster #{index}
+			%ul
+				- cluster.documents.each do |document|
+					%li= document.text

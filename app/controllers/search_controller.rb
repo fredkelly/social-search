@@ -9,7 +9,7 @@ class SearchController < ApplicationController
     documents = Twitter.search(params[:query], count: 100, lang: :en).statuses
     
     # do the clustering
-    clusterer = Clustering::MajorClust.new(documents)
+    clusterer = Clustering::HAC.new(documents, measure: :normalised_levenshtein)
     @clusters = clusterer.cluster!
   end
 end

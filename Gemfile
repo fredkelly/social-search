@@ -8,7 +8,11 @@ gem 'rails', '3.2.11'
 gem 'pg'
 gem 'haml-rails'
 gem 'twitter'
+gem 'levenshtein'
+gem 'fast-stemmer', require: 'fast_stemmer'
 
+# requires Stanford NLP lib (jar)
+gem 'stanford-core-nlp'
 
 # Gems used only for assets and not required
 # in production environments by default.
