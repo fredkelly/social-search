@@ -2,42 +2,66 @@ module Clustering
   # Hierarchical Agglomerative Clustering
   class HAC < Clusterer
     
-    DELTA_THRESHOLD = 0.8 # lower => more separation
+    IMPLEMENTATION = :cluster_sorted
+    DELTA_THRESHOLD = 0.95 # lower => more separation
+    
+    
+    def cluster
+      self.send(IMPLEMENTATION, @clusters)
+    end
     
     # naive approach O(n^3)
-    # http://www.graphics.cornell.edu/~bjw/IRT08Agglomerative.pdf
-    def cluster!
-      # start with everything in it's own cluster
-      @clusters = @documents.map{|d| Cluster.new([d])}
+    def cluster_naive(clusters)
       
-      while @clusters.size > 1
-        Rails.logger.info "@clusters.size = #{@clusters.size}"
-        
-        delta = Float::INFINITY
+      # start with everything in it's own cluster
+      clusters = @documents.map{|d| Cluster.new([d])}
+      
+      while clusters.size > 1        
+        min_delta = Float::INFINITY
         left, right = nil
         
-        # finds two closest documents
-        @clusters.each do |a|
-          @clusters.each do |b|
-            if a != b and distance(a.tokens, b.tokens) < delta
-              delta = distance(a.tokens, b.tokens)
+        # loop through all pairs of clusters
+        clusters.each do |a|
+          clusters.each do |b|
+            if a != b and (delta = distance(a.tokens, b.tokens)) < min_delta
+              min_delta = delta
               left, right = a, b
-              Rails.logger.info "left = #{left}, right = #{right}, delta = #{delta}"
             end
           end
         end
-        
-        
-        if delta < DELTA_THRESHOLD
+                
+        if min_delta < DELTA_THRESHOLD
           # merge closest two clusters
-          @clusters << Cluster.new(left.documents + right.documents)
-          @clusters.delete(left); @clusters.delete(right)
+          clusters << Cluster.new(left.documents + right.documents)
+          clusters.delete(left); clusters.delete(right)
         else
           break
         end
       end
       
-      @clusters
+      clusters      
+    end
+    
+    # improved complexity
+    def cluster_sorted(clusters)
+      
+      # start with everything in it's own cluster
+      clusters = @documents.map{|d| Cluster.new([d])}
+      
+      while clusters.size > 1        
+        # closest pair of clusters clusters
+        left, right, delta = clusters.combination(2).map{|a,b| [a,b,distance(a.tokens,b.tokens)]}.min_by(&:last)
+                
+        if delta < DELTA_THRESHOLD
+          # merge closest two clusters
+          clusters << Cluster.new(left.documents + right.documents)
+          clusters.delete(left); clusters.delete(right)
+        else
+          break
+        end
+      end
+      
+      clusters      
     end
     
   end

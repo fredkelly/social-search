@@ -1,9 +1,13 @@
 %h1 Search#show
 %p Find me in app/views/search/show.html.haml
 %ul
-	- @clusters.each_with_index do |cluster, index|
+	- @clusters.sort.reverse.each_with_index do |cluster, index|
 		%li
-			%h2 Cluster #{index}
+			%h2= "Cluster #{index+1}"
+			%p= cluster.hashtags.map{|h| "##{h}"}.join(', ')
+			%ul
+				- cluster.media_urls.each do |url|
+					%li= image_tag url
 			%ul
 				- cluster.documents.each do |document|
 					%li= document.text

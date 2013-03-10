@@ -7,7 +7,7 @@ module Clustering
     
     def distance(*args)
       args.map(&:class).each do |klass|
-        raise "#{__method__}: given #{klass}, expected Array" unless klass == Array
+        raise '#{__method__}: given #{klass}, expected an Enumerable' unless klass.include?(Enumerable)
       end
       self.class.send(@measure, *args)
     end
@@ -34,6 +34,34 @@ module Clustering
     def self.intersection_size(a, b)      
       return 0.0 if a.empty? or b.empty?
       1.0 - (a & b).size.to_f / (a | b).size
+    end
+    
+    # Longest Common Subsequence
+    # http://bit.ly/15FEimV
+    def self.lcs(a, b)
+      return [] if a.empty? or b.empty?
+      
+      m = Array.new(a.size) { [0]*b.size }
+      longest, end_pos = 0,0
+      (0..a.size-1).each do |x|
+        (0..b.size-1).each do |y|
+          if a[x] == b[y]
+            m[x][y] = 1
+            if (x > 0 && y > 0)
+              m[x][y] += m[x-1][y-1]
+            end
+            if m[x][y] > longest
+              longest = m[x][y]
+              end_pos = x
+            end
+          end
+        end
+      end
+      return a[end_pos-longest+1..end_pos]
+    end
+    
+    def self.normalised_lcs(a, b)
+      1.0 - lcs(a, b).size.to_f / [a, b].map(&:size).max
     end
     
   end

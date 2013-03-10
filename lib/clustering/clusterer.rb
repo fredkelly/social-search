@@ -14,5 +14,11 @@ module Clustering
       @measure   = DistanceMeasure.new(options[:measure])
     end
     
+    # assume non-destructive by default
+    # e.g. incase we wan't compare implementations in parallel etc.
+    def cluster!
+      @clusters = cluster
+    end
+    
   end
 end

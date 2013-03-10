@@ -11,9 +11,9 @@ module Clustering
     
     # perfoms the tokenisation
     def tokenise(passage)
-      tokens = passage.downcase.split
-      tokens -= STOP_WORDS  if @options[:remove_stopwords]
-      tokens.map!(&:stem)   if @options[:stem]
+      tokens = passage.scan(/[a-zA-Z]+/).reject{|t| t.size < 5}
+      tokens = tokens - STOP_WORDS if @options[:remove_stopwords]
+      tokens.map!(&:stem) if @options[:stem]
       
       tokens
     end

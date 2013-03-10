@@ -10,9 +10,7 @@ gem 'haml-rails'
 gem 'twitter'
 gem 'levenshtein'
 gem 'fast-stemmer', require: 'fast_stemmer'
-
-# requires Stanford NLP lib (jar)
-gem 'stanford-core-nlp'
+gem 'profanity_filter'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -24,6 +22,10 @@ group :assets do
   # gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+end
+
+group :test do
+  gem 'ruby-prof'
 end
 
 gem 'jquery-rails'
