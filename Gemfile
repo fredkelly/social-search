@@ -12,6 +12,9 @@ gem 'levenshtein'
 gem 'fast-stemmer', require: 'fast_stemmer'
 gem 'profanity_filter'
 
+gem 'bourbon'
+gem 'neat'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

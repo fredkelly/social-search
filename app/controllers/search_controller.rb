@@ -10,17 +10,18 @@ class SearchController < ApplicationController
     documents, clusterer = nil
     
     Benchmark.bm(12) do |x|
-      x.report("Twitter:") do
+      x.report('Twitter') do
         documents = Twitter.search(params[:query], count: 100, lang: :en, include_entities: true).statuses
       end
       
-      x.report("Clustering") do
+      x.report('Clustering') do
         # do the clustering
         clusterer = Clustering::HAC.new(documents, measure: :intersection_size)
         clusterer.cluster!
       end
     end
-        
-    @clusters = clusterer.clusters
+    
+    # ignore clusters smaller than five documents
+    @clusters = clusterer.clusters.reject{|c| c.documents.size < 5}
   end
 end

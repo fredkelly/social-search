@@ -1,3 +1,18 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+jQuery ->
+  $('ul.clusters').masonry
+    isAnimated: true
+    gutterWidth: 20
+    columnWidth: 300
+  
+  tick = (obj) ->
+    $('li:first', obj).slideUp ->
+      #$(this).parent().append($(this))
+      $(this).appendTo($(this).parent()).slideDown()
+
+  $('ul.tweets').each (i, tweet) ->
+    setInterval ->
+      tick(tweet)
+    , (Math.random()+1)*10000
+  
+  $('ul.media img').load (event) ->
+    $('ul.clusters').masonry()

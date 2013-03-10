@@ -24,5 +24,9 @@ module Clustering
       @documents.map(&:media_urls).reduce(&:|)
     end
     
+    def has_media?
+      !media_urls.empty?
+    end
+    
   end
 end

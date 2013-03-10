@@ -1,13 +1,18 @@
-%h1 Search#show
-%p Find me in app/views/search/show.html.haml
-%ul
-	- @clusters.sort.reverse.each_with_index do |cluster, index|
-		%li
-			%h2= "Cluster #{index+1}"
-			%p= cluster.hashtags.map{|h| "##{h}"}.join(', ')
-			%ul
-				- cluster.media_urls.each do |url|
-					%li= image_tag url
-			%ul
-				- cluster.documents.each do |document|
-					%li= document.text
+%h1 Search for &ldquo;#{params[:query]}&rdquo;...
+%ul.clusters
+	- @clusters.sort.reverse.each do |cluster|
+		%li{:class => ('double' if cluster.has_media?)}
+			%article
+				- unless cluster.media_urls.empty?
+					%ul.media
+						- cluster.media_urls[0..1].each do |url|
+							%li= image_tag url
+				- unless cluster.hashtags.empty?
+					%ul.tags
+						- cluster.hashtags.each do |tag|
+							%li= link_to ('#' + tag), "http://twitter.com/search?q=%23#{tag}&src=hash"
+				%ul.tweets
+					- cluster.documents.each do |tweet|
+						%li
+							= tweet.text
+							%time #{time_ago_in_words(tweet.created_at)} ago
