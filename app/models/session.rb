@@ -2,6 +2,7 @@ class Session < ActiveRecord::Base
   attr_accessible :session_id, :app_version, :accept, :accept_charset, :accept_language, :remote_ip, :user_agent
   
   has_many :searches, dependent: :destroy
+  has_many :comments, through: :searches
   validates :session_id, presence: true
   
   alias_attribute :to_s, :session_id

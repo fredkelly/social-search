@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+google:
+  url: http://google.co.uk/
+  search_id: 1
+  description: Was once the no.1 search engine before the introduction of Soci-Search.
+  selected_at: 2013-01-30 19:57:12
+  position: 1
+  source_engine: TestEngine
+
+bing:
+  url: http://bing.com/
+  search_id: 1
+  description: Was never very good.
+  selected_at: 2013-01-30 19:59:12
+  position: 2
+  source_engine: TestEngine
+
+yahoo:
+  url: http://yahoo.com/
+  search_id: 1
+  description: Not really in existence any more!
+  selected_at: 2013-01-30 20:01:12
+  position: 3
+  source_engine: TestEngine

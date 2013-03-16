@@ -12,7 +12,11 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
+defaults: &defaults
+  min_messages: warning
+
 development:
+  <<: *defaults
   adapter: postgresql
   encoding: unicode
   database: social-search_development
@@ -39,6 +43,7 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
+  <<: *defaults
   adapter: postgresql
   encoding: unicode
   database: social-search_test

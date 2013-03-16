@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -26,6 +26,10 @@ gem 'hisrc-rails'
 
 gem 'awesome_print'
 gem 'term-ansicolor' # for demo console
+
+group :test, :development do
+  gem 'rspec-rails', '~> 2.0'
+end
 
 # experimenting..
 group :development do
