@@ -373,11 +373,18 @@ form#search {
 }
 
 #about {
+  img {
+    float: right;
+  }
   p {
     margin-bottom: 1em;
     
     &:last-child {
       margin-bottom: 0;
+    }
+    
+    em {
+      color: #d47130;
     }
     
     a {
