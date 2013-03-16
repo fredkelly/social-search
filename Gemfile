@@ -31,11 +31,6 @@ group :test, :development do
   gem 'rspec-rails', '~> 2.0'
 end
 
-# experimenting..
-group :development do
-  gem 'summarize'
-end
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
