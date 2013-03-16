@@ -33,7 +33,6 @@ class Page
         url = self.escape(url)
         retry
       end
-      CustomLogger.info "Gave up scraping page (#{error}).".red
       return nil
     end
     # ignore short urls etc. - move to Exception?
@@ -54,7 +53,7 @@ class Page
   # i.e. if there are common words in the first
   # 30 characters of the <title> and <meta> description.
   def generic_meta_description?
-    [truncate(document.title, length: 30, omission: ''), meta_description].map{|d| d.downcase.split}.reduce(&:&).size > 0
+    [truncate(document.title, length: 30, omission: nil.to_s), meta_description].map{|d| d.downcase.split}.reduce(&:&).size > 0
   end
   
   include ActionView::Helpers::TextHelper

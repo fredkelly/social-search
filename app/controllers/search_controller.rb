@@ -9,7 +9,11 @@ class SearchController < ApplicationController
   # Creates a new search belonging to the current session.
   # redirect to results page?
   def create
-    @search = current_session.searches.where(query: params[:query]).first_or_create
+    begin
+      @search = current_session.searches.where(query: params[:query]).first_or_create
+    rescue Twitter::Error => error
+      raise $!, "Unable to retrieve Tweets: #{$!}", $!.backtrace
+    end
     
     if @search.empty?
       documents = Twitter.search(params[:query], count: 100, lang: :en, include_entities: true).statuses
@@ -17,11 +21,13 @@ class SearchController < ApplicationController
     
       # create results from the clusters
       clusterer.cluster!.sort.each_with_index do |cluster, position|
-        logger.info cluster.size
-        next if cluster.url.nil? or cluster.size < 5
-        @search.results.create!(
-          source_engine: 'Clustering::HAC', url: cluster.url, position: position
-        )
+        begin
+          @search.results.create!(
+            source_engine: clusterer.class, url: cluster.url, position: position
+          )
+        rescue
+          next # skip if fails validations
+        end
       end
     end
     

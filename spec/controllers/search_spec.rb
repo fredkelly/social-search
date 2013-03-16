@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SearchController do
-  fixtures :sessions, :searches
+  fixtures :searches, :sessions
   
   before(:each) do
     ApplicationController.any_instance.stub(:current_session).and_return(@session = sessions(:dave))
@@ -18,7 +18,9 @@ describe SearchController do
       get :index
       expect(response).to render_template('index')
     end
-    
+  end
+  
+  describe 'GET #search' do
     it 'creates a new search' do
       get :create, query: query = 'manchester'
       expect(response).to be_success

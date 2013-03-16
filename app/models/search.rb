@@ -8,10 +8,7 @@ class Search < ActiveRecord::Base
   delegate :empty?, to: :results
   
   validates :query, presence: true
-  
-  # create results as soon as record is created
-  after_create :generate_results
-  
+
   alias_attribute :to_s, :query
   
   scope :with_results, joins: :results, conditions: 'results.search_id IS NOT NULL', group: 'searches.id'
@@ -46,12 +43,5 @@ class Search < ActiveRecord::Base
   def retried?
     !retried_from.empty?
   end
-  
-  private
-  
-  # here we will call KMeans etc. to actually
-  # generate some search results.
-  def generate_results
-    #TestEngine.new(self)
-  end
+
 end

@@ -3,8 +3,8 @@ class Result < ActiveRecord::Base
   
   belongs_to :search, dependent: :destroy, touch: true, counter_cache: true
   
-  # WIP
-  #validates :title, :url, :description, presence: true, if: :has_page?
+  validates :url, presence: true
+  validate :has_page?
   
   #validates_length_of :description, minimum: 20
   
@@ -17,7 +17,7 @@ class Result < ActiveRecord::Base
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
-  before_validation :scrape_page, if: Proc.new { self.source_engine::SCRAPED }, on: :create
+  before_create :scrape_page, if: Proc.new { self.source_engine::SCRAPED }, on: :create
   
   # statistics
   define_calculated_statistic :average_selections do

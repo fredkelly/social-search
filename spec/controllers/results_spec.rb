@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 describe ResultsController do
-  fixtures :results
+  fixtures :results, :sessions
+
+  before(:each) do
+    ApplicationController.any_instance.stub(:current_session).and_return(@session = sessions(:dave))
+  end
 
   describe 'GET #show' do
     it 'responds with HTTP 301 status' do

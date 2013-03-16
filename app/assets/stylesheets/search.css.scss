@@ -293,6 +293,7 @@ form#search {
     &:first-child:before,
     &:only-child:before {
       content: '';
+			margin: 0;
     }
     a {
       @extend .info;
