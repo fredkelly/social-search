@@ -39,6 +39,6 @@ class SearchController < ApplicationController
     @search  = current_session.searches.find(params[:search_id])
     @comment = @search.comments.create!(params.slice(:rating, :comment))
     
-    respond_with @comment
+    render json: @comment
   end
 end

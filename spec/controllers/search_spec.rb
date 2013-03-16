@@ -27,4 +27,11 @@ describe SearchController do
       expect(@session.searches.first.query).to eq(query)
     end
   end
+  
+  describe 'POST #comment' do
+    it 'can add a comment' do
+      post :comment, search_id: searches(:find).id, rating: rand(1..5), comment: 'Test Comment'
+      expect(response).to be_success
+    end
+  end
 end

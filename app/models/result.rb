@@ -17,7 +17,7 @@ class Result < ActiveRecord::Base
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
-  before_create :scrape_page, if: Proc.new { self.source_engine::SCRAPED }, on: :create
+  before_create :scrape_page, if: Proc.new { self.url && self.source_engine::SCRAPED }
   
   # statistics
   define_calculated_statistic :average_selections do
@@ -64,7 +64,6 @@ class Result < ActiveRecord::Base
   
   # Set attributes sourced from scraped page
   def scrape_page
-    # grab scraped attributes
     self.url          = page.url # gives a resolved url
     self.title        = page.title
     self.description  = page.description
