@@ -5,6 +5,8 @@ class Search < ActiveRecord::Base
   has_many :results, dependent: :destroy
   has_many :comments, dependent: :destroy
   
+  delegate :empty?, to: :results
+  
   validates :query, presence: true
   
   # create results as soon as record is created
@@ -50,6 +52,6 @@ class Search < ActiveRecord::Base
   # here we will call KMeans etc. to actually
   # generate some search results.
   def generate_results
-    TestEngine.new(self)
+    #TestEngine.new(self)
   end
 end

@@ -1,4 +1,6 @@
 class SearchController < ApplicationController
+  respond_to :html, :json
+  
   def index
     @recents = Search.recents
   end
@@ -7,25 +9,30 @@ class SearchController < ApplicationController
   # Creates a new search belonging to the current session.
   # redirect to results page?
   def create
-    # TODO: limit based on created_at
-    begin
-      @search = current_session.searches.where(query: params[:query]).first_or_create
-    rescue StandardError => error
-      flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : " (#{error})")
+    @search = current_session.searches.where(query: params[:query]).first_or_create
+    
+    if @search.empty?
+      documents = Twitter.search(params[:query], count: 100, lang: :en, include_entities: true).statuses
+      clusterer = Clustering::HAC.new(documents, measure: :intersection_size)
+    
+      # create results from the clusters
+      clusterer.cluster!.sort.each_with_index do |cluster, position|
+        logger.info cluster.size
+        next if cluster.url.nil? or cluster.size < 5
+        @search.results.create!(
+          source_engine: 'Clustering::HAC', url: cluster.url, position: position
+        )
+      end
     end
     
-    respond_to do |format|
-      format.html { render :results }
-      format.json { render json: { query: @search.query, size: @search.results.size, results: @search.results } }
-    end
+    respond_with @search, template: 'search/results'
   end
   
   # add feedback (to be AJAX'd)
   def comment
-    @comment = current_session.searches.find(params[:search_id]).comments.create!(params.slice(:rating, :comment))
+    @search  = current_session.searches.find(params[:search_id])
+    @comment = @search.comments.create!(params.slice(:rating, :comment))
     
-    respond_to do |format|
-      format.json { render json: @comment.valid? ? @comment : { errors: @comment.errors.full_messages } }
-    end
+    respond_with @comment
   end
 end
