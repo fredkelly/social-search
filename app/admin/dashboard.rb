@@ -39,9 +39,9 @@ ActiveAdmin.register_page "Dashboard" do
     
     unless StatisticsAggregate.count < 2
       columns do
-        StatisticsAggregate.as_time_series.each do |column, series|
+        StatisticsAggregate.as_time_series(:all).each do |column, series|
           column do
-            panel "#{StatisticsAggregate::FRIENDLY_NAMES[column]} (7 days)" do
+            panel "#{StatisticsAggregate::FRIENDLY_NAMES[column]} (#{series.size} days)" do
               render 'graph', column: column, series: series
             end
           end
