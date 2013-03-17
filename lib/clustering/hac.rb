@@ -8,6 +8,7 @@ module Clustering
     SCRAPED = true
     
     def cluster
+      debug "Began clustering..."
       self.send(IMPLEMENTATION, @clusters)
     end
     
@@ -54,13 +55,19 @@ module Clustering
         left, right, delta = clusters.combination(2).map{|a,b| [a,b,distance(a.tokens,b.tokens)]}.min_by(&:last)
                 
         if delta < DELTA_THRESHOLD
+          debug "Merging clusters #{left} & #{right}."
+          
           # merge closest two clusters
           clusters << Cluster.new(left.documents + right.documents)
           clusters.delete(left); clusters.delete(right)
         else
+          debug "Threshold (#{DELTA_THRESHOLD}) reached, ending clustering."
+          
           break
         end
       end
+      
+      debug_clusters(clusters)
       
       clusters      
     end

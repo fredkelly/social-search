@@ -12,12 +12,35 @@ module Clustering
       @documents = documents
       @clusters  = []
       @measure   = DistanceMeasure.new(options[:measure])
+      @logger    = ActiveSupport::BufferedLogger.new(log_path)
+      
+      debug "Initialised #{self.class} with #{documents.size} documents."
     end
     
     # assume non-destructive by default
     # e.g. incase we wan't compare implementations in parallel etc.
     def cluster!
       @clusters = cluster
+    end
+    
+    private
+    
+    # log helper
+    def debug(message)
+      @logger.info(message)
+    end
+    
+    def debug_clusters(clusters = @clusters)
+      clusters.each do |cluster|
+        unless cluster.url.nil?
+          debug "\nCluster (#{cluster.url}):"
+          cluster.documents.map{|d| debug "\t#{d.text}"}
+        end
+      end
+    end
+    
+    def log_path
+      Rails.root.join("log/#{self.class}.log".gsub('::', '_'))
     end
     
   end
