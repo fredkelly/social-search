@@ -83,7 +83,7 @@ and (max-device-width : 480px) {
 	}
   
   /* hide models on iOS (hack) */
-  a[rel=modal] {
+  a.modal-link {
     display: none;
   }
 }
