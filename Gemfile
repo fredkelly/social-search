@@ -16,6 +16,8 @@ gem 'fast-stemmer', require: 'fast_stemmer'
 gem 'activeadmin'
 gem 'statistics'
 gem 'geocoder'
+gem 'profanity_filter'
+gem 'fancybox-rails'
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

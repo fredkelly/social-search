@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301184941) do
+ActiveRecord::Schema.define(:version => 20130317095807) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20130301184941) do
     t.string   "source_engine"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.text     "media_urls"
   end
 
   add_index "results", ["search_id"], :name => "index_results_on_search_id"

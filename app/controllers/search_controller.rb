@@ -23,9 +23,11 @@ class SearchController < ApplicationController
       clusterer.cluster!.sort.each_with_index do |cluster, position|
         begin
           @search.results.create!(
-            source_engine: clusterer.class, url: cluster.url, position: position
+            source_engine: clusterer.class, url: cluster.url,
+            position: position, media_urls: cluster.media_urls
           )
-        rescue
+        rescue Exception => e
+          logger.info e
           next # skip if fails validations
         end
       end
@@ -40,5 +42,10 @@ class SearchController < ApplicationController
     @comment = @search.comments.create!(params.slice(:rating, :comment))
     
     render json: @comment
+  end
+  
+  def modals
+    @search = Search.find(params[:search_id]) if params[:search_id]
+    render template: "modals/#{params[:modal_id]}", layout: nil, search: @search
   end
 end

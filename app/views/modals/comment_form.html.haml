@@ -1,0 +1,21 @@
+#comment.modal
+	.success
+		%h4 All Done!
+		%p Thank you, your feedback has been recorded and will be used to evaluate and improve performance.
+	= form_tag('/search/comment', method: 'post', remote: true) do
+		%fieldset
+			%legend Search Feedback
+			%ul
+				%li
+					= label_tag :query, 'Searched:'
+					"#{@search.query}"
+				%li
+					= label_tag 'Rating:'
+					#rating
+						- for i in 1..5
+							= radio_button_tag :rating, i, i == 3
+				%li
+					= label_tag 'Comment:'
+					= text_area_tag :comment, nil, placeholder: 'Your message..'
+			= hidden_field_tag :search_id, @search.id
+			= button_tag 'Send Feedback', name: nil

@@ -1,9 +1,9 @@
 class Result < ActiveRecord::Base
-  attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine
+  attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine, :media_urls
   
   belongs_to :search, dependent: :destroy, touch: true, counter_cache: true
   
-  validates :url, presence: true
+  validates :url, :title, :description, presence: true
   validate :has_page?
   
   #validates_length_of :description, minimum: 20
@@ -17,7 +17,10 @@ class Result < ActiveRecord::Base
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
-  before_create :scrape_page, if: Proc.new { self.url && self.source_engine::SCRAPED }
+  before_validation :scrape_page, if: Proc.new { self.url && self.source_engine::SCRAPED }, on: :create
+  
+  # array of image urls
+  serialize :media_urls
   
   # statistics
   define_calculated_statistic :average_selections do
@@ -77,5 +80,9 @@ class Result < ActiveRecord::Base
   # store as string
   def source_engine=(engine)
     super(engine.to_s)
+  end
+  
+  def has_media?
+    !media_urls.empty?
   end
 end
