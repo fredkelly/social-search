@@ -9,8 +9,7 @@ jQuery ->
 	# retina images
 	$('img').hisrc()
 	
-	# fancy box modals
-	$('.thumbs a, a.modal-link').fancybox(
+	$('a.modal-link').fancybox(
     onComplete: ->
       # completed feedback
       $('form').on('ajax:success', (e, data, status, xhr) ->
@@ -19,6 +18,9 @@ jQuery ->
           $('#comment .success').fadeIn()
         )
       )   
+  )
+  $('.thumbs a').fancybox(
+    type: 'image'
   )
 
 # show loader for turbolinks
