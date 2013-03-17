@@ -9,7 +9,7 @@ class Result < ActiveRecord::Base
   #validates_length_of :description, minimum: 20
   
   # NB: will validate on short URL before resolved URL is saved
-  validates_uniqueness_of :url, scope: [:search_id], message: "URL %{value} already found in this search."
+  validates_uniqueness_of :url, scope: [:search_id], message: "%{value} already found in this search."
     
   # order by position
   default_scope order: 'position ASC'
@@ -17,7 +17,7 @@ class Result < ActiveRecord::Base
   scope :selected, where('selected_at IS NOT NULL')
   
   # perform scraping if required by source Engine
-  before_validation :scrape_page, if: Proc.new { self.url && self.source_engine::SCRAPED }, on: :create
+  before_validation :scrape_page, if: Proc.new { has_page? && source_engine::SCRAPED }, on: :create
   
   # array of image urls
   serialize :media_urls
@@ -58,7 +58,7 @@ class Result < ActiveRecord::Base
   # checks if page is accessible
   # TODO: reject non-200 response codes?
   def has_page?
-    if page.nil? || page.document.nil?
+    if url.nil? or page.nil? or page.document.nil?
       errors.add(:page, "can not be nil")
       return false
     end
