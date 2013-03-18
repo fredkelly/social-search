@@ -61,7 +61,7 @@ module Clustering
           clusters << Cluster.new(left.documents + right.documents)
           clusters.delete(left); clusters.delete(right)
         else
-          debug "Threshold (#{DELTA_THRESHOLD}) reached, ending clustering."
+          debug "Threshold reached (#{delta}), ending clustering."
           
           break
         end
