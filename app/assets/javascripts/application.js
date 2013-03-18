@@ -15,5 +15,6 @@
 //= require jquery.turbolinks
 //= require turbolinks
 //= require fancybox
+//= require typeahead
 //= require hisrc
 //= require_tree .

@@ -4,7 +4,11 @@
 
 jQuery ->
 	# focus on search box
-	$('input#query').focus().val($("input#query").val())
+	$('input#query').focus().val($("input#query").val()).typeahead(
+		name: 'search'
+		prefetch: './search/recents.json'
+		limit: 10
+	)
 
 	# retina images
 	$('img').hisrc()

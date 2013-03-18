@@ -6,6 +6,13 @@ class SearchController < ApplicationController
   end
   caches_action :index, expires_in: 30.minutes
   
+  # for autocomplete
+  def recents
+    @recents = Search.recents(100)
+    
+    render json: @recents.map(&:query)
+  end
+  
   # Creates a new search belonging to the current session.
   # redirect to results page?
   def create

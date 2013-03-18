@@ -52,6 +52,11 @@ input, textarea, select {
   font-size: inherit;
 }
 
+/* typeahead fix */
+.twitter-typeahead {
+	display: block !important;
+}
+
 /* smartphones */
 @media only screen 
 and (min-device-width : 320px) 
