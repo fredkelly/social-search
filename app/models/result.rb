@@ -1,5 +1,5 @@
 class Result < ActiveRecord::Base
-  attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine, :media_urls
+  attr_accessible :title, :url, :description, :position, :search_id, :selected_at, :source_engine, :media_urls, :time_delta
   
   belongs_to :search, dependent: :destroy, touch: true, counter_cache: true
   
@@ -84,5 +84,13 @@ class Result < ActiveRecord::Base
   
   def has_media?
     !media_urls.empty?
+  end
+  
+  def time_delta
+    Time.now - super
+  end
+  
+  def recent?
+    time_delta > 10.minutes.ago
   end
 end

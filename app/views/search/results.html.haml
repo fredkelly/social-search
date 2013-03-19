@@ -11,12 +11,17 @@
 		%ol
 			- @search.results.each do |result|
 				%li
-					%h3= link_to result.title, result_path(result), data: { url: result.url }
-					%cite= truncate_url(result.url, length: 100)
-					%p= highlight(truncate(result.description, length: 300), @search.query_tokens).html_safe
-					- if result.has_media?
-						%ul.thumbs
-							- result.media_urls.each do |media_url|
-								%li
-									= link_to media_url, rel: "thumbs-#{result.id}" do
-										= image_tag media_url
+					%article
+						%header
+							%h3
+								= link_to result.title, result_path(result), data: { url: result.url }
+								%time{datetime: result.time_delta} #{time_ago_in_words(result.time_delta)} ago
+							%cite= truncate_url(result.url, length: 100)
+						%section
+							%p= highlight(truncate(result.description, length: 300), @search.query_tokens).html_safe
+							- if result.has_media?
+								%ul.thumbs
+									- result.media_urls.each do |media_url|
+										%li
+											= link_to media_url, rel: "thumbs-#{result.id}" do
+												= image_tag media_url

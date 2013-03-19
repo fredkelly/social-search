@@ -42,5 +42,9 @@ module Clustering
       urls.mode unless urls.empty?
     end
     
+    def time_delta
+      @documents.map(&:time_delta).mean
+    end
+    
   end
 end

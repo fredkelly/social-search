@@ -31,7 +31,8 @@ class SearchController < ApplicationController
         begin
           @search.results.create!(
             source_engine: clusterer.class, url: cluster.url,
-            position: position, media_urls: cluster.media_urls
+            position: position, media_urls: cluster.media_urls,
+            time_delta: cluster.time_delta
           )
         rescue Exception => e
           logger.info e

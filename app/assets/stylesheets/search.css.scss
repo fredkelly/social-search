@@ -2,12 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$text-color: #111;
+$text-color: #333;
 $alt-text-color: #555;
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
 
 body {
 	text-align: center;
-	font: 100%/1.5 "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
+	font: 100%/1.5 "Montserrat", "Lucida Grande", "Lucida Sans Unicode", Verdana, "Jamrul", sans-serif;
 	margin: 5em 0;
   color: $text-color;
   
@@ -184,13 +188,13 @@ body.loading {
 
 button {
   border: 0;
-  padding: 0.5em 0.5em 0.4em 0.5em;
+  padding: 0.7em 0.7em 0.6em 0.7em;
 	background: #a1b25e;
 	border-bottom: 2px solid #91a150;
-	text-shadow: 0 -2px 0 #91a150;
+	/*text-shadow: 0 -2px 0 #91a150;*/
 	color: #fff;
 	cursor: pointer;
-  text-transform: uppercase;
+  font-size: 2em;
   
   &[rel=close] {
     background: #555;
@@ -235,7 +239,6 @@ form#search {
 		position: absolute;
 		top: 0; right: 0;
 		height: 100%;
-    font-size: 0.85em;
 	}
 }
 
@@ -268,6 +271,14 @@ form#search {
 		li {
 			margin-top: 1em;
       word-wrap: break-word;
+      
+      h3 {
+        time {
+          color: #aaa;
+          font-size: 0.8em;
+          margin-left: 0.5em;
+        }
+      }
 			
 			cite {
 				color: #a1b25e;
@@ -291,11 +302,11 @@ form#search {
           overflow: hidden;
           border: 1px solid #eee;
           position: relative;
-          @include size(100px);
+          @include size(50px);
             
           img {
-            width: 300px;
-            margin: -50px 0 0 -50px;
+            width: 150px;
+            margin: -25px 0 0 -25px;
           }
         }
       }

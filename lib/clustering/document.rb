@@ -42,5 +42,9 @@ module Clustering
       @profane ||= ProfanityFilter::Base.profane?(text)
     end
     
+    def time_delta
+      @time_delta = Time.now - created_at
+    end
+    
   end
 end
