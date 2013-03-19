@@ -50,12 +50,12 @@ module Clustering
       # start with everything in it's own cluster
       clusters = @documents.map{|d| Cluster.new([d])}
       
-      while clusters.size > 1        
+      while clusters.size > 1
         # closest pair of clusters clusters
         left, right, delta = clusters.combination(2).map{|a,b| [a,b,distance(a.tokens,b.tokens)]}.min_by(&:last)
                 
         if delta < DELTA_THRESHOLD
-          debug "Merging clusters #{left} & #{right}."
+          debug "Merging clusters\n\t#{left}\n\t#{right}"
           
           # merge closest two clusters
           clusters << Cluster.new(left.documents + right.documents)
@@ -67,6 +67,7 @@ module Clustering
         end
       end
       
+      # print out clusters
       debug_clusters(clusters)
       
       clusters      

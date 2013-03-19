@@ -33,8 +33,8 @@ module Clustering
     def debug_clusters(clusters = @clusters)
       clusters.each do |cluster|
         unless cluster.url.nil?
-          debug "\nCluster (#{cluster.url}):"
-          cluster.documents.map{|d| debug "\t#{d.text}"}
+          debug (title = "\nCluster (#{cluster.url}):") + "\n" + ('-' * title.size)
+          cluster.documents.map{|d| debug "\t#{d.text.split[0..15].join(' ')}..."}
         end
       end
     end

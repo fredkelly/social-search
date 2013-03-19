@@ -8,10 +8,11 @@ describe ResultsController do
   end
 
   describe 'GET #show' do
-    #it 'responds with HTTP 301 status' do
-    #  get :show, id: results(:google).id
-    #  expect(response.code.to_i).to eq(301)
-    #end
+    it 'responds with HTTP 301 status' do
+      get :show, id: 1108 #results(:google).id
+      Rails.logger.info "url = #{response.location}"
+      expect(response.code.to_i).to eq(301)
+    end
     
     #it 'redirects to search url' do
     #  get :show, id: results(:google).id

@@ -46,5 +46,9 @@ module Clustering
       @documents.map(&:time_delta).mean
     end
     
+    def to_s
+      "#<#{self.class}: size=#{@documents.size}, hashtags=[#{hashtags.join(',')}]>"
+    end
+    
   end
 end

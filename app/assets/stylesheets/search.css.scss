@@ -113,12 +113,14 @@ body.splash {
 			font-size: 0.8em;
       position: relative;
 			color: $alt-text-color;
-			
+      			
 			h3, ul {
 				@include inline-block;
 			}
       ul {
         overflow-y: hidden;
+        @include size(400px 20px);
+        vertical-align: middle;
         
   			li {
   				margin-left: 0.25em;

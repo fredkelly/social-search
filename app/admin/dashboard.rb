@@ -20,7 +20,7 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel "Recent Comments" do
           ul do
-            Comment.last(5).reverse.map do |comment|
+            Comment.where('comment != \'\'').last(5).reverse.map do |comment|
               li link_to "\"#{comment.comment}\" (#{comment.rating}/5)", admin_search_path(comment.search) do
                 span "#{time_ago_in_words(comment.created_at)} ago"
               end
