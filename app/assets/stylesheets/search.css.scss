@@ -119,8 +119,6 @@ body.splash {
 			}
       ul {
         overflow-y: hidden;
-        @include size(400px 20px);
-        vertical-align: middle;
         
   			li {
   				margin-left: 0.25em;
