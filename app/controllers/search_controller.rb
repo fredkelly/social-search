@@ -27,7 +27,7 @@ class SearchController < ApplicationController
       clusterer = Clustering::HAC.new(documents, measure: :intersection_size)
     
       # create results from the clusters
-      clusterer.cluster!.sort.each_with_index do |cluster, position|
+      clusterer.cluster!.sort[0..9].each_with_index do |cluster, position|
         begin
           @search.results.create!(
             source_engine: clusterer.class, url: cluster.url,
