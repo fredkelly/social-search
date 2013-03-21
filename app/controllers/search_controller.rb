@@ -20,7 +20,7 @@ class SearchController < ApplicationController
       begin
         documents = Twitter.search(params[:query], count: 100, lang: :en, include_entities: true).statuses
       rescue Twitter::Error => error
-        raise Error, "unable to contact Twitter: #{$!}", $!.backtrace
+        raise Error, "unable to contact Twitter (#{$!})", $!.backtrace
       end
       
       # set up clusterer

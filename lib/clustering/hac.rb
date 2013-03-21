@@ -15,8 +15,8 @@ module Clustering
     # naive approach O(n^3)
     def cluster_naive(clusters)
       
-      # start with everything in it's own cluster
-      clusters = @documents.map{|d| Cluster.new([d])}
+      # start with everything in it's own cluster (no centroid)
+      clusters = @documents.map{|d| Cluster.new([d], nil)}
       
       while clusters.size > 1        
         min_delta = Float::INFINITY

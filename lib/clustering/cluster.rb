@@ -10,7 +10,8 @@ module Clustering
     # sets up cluster either with provided centroid or randomly selected one
     def initialize(documents, centroid = nil, options = {})
       @documents  = documents
-      @centroid   = centroid # || @documents.sample
+      @centroid   = centroid || @documents.sample
+      @options    = options
     end
     
     def tokens

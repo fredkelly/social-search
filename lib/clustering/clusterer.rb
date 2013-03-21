@@ -10,11 +10,16 @@ module Clustering
     
     def initialize(documents, options = {})
       @documents = documents
+      @options   = options
       @clusters  = []
       @measure   = DistanceMeasure.new(options[:measure])
       @logger    = ActiveSupport::BufferedLogger.new(log_path)
       
       debug "Initialised #{self.class} with #{documents.size} documents."
+    end
+    
+    def cluster
+      raise NotImplementedError, "#{self.class}.#{__method__} must be implemented in subclass"
     end
     
     # assume non-destructive by default

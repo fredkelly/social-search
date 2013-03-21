@@ -5,13 +5,14 @@ module Clustering
     
     # initializes with options hash
     def initialize(options = {})
-      options[:lang] ||= :en
+      options[:lang]  ||= :en
+      options[:limit] ||= 5
       @options = options
     end
     
     # perfoms the tokenisation
     def tokenise(passage)
-      tokens = passage.scan(/[a-zA-Z]+/).reject{|t| t.size < 5}
+      tokens = passage.scan(/[a-zA-Z]+/).reject{|t| t.size < @options[:limit]}
       tokens = tokens - STOP_WORDS if @options[:remove_stopwords]
       tokens.map!(&:stem) if @options[:stem]
       
