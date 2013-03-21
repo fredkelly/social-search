@@ -7,6 +7,8 @@ module Clustering
     extend Forwardable
     def_delegator :@documents, :size
     
+    include Comparable
+    
     # sets up cluster either with provided centroid or randomly selected one
     def initialize(documents, centroid = nil, options = {})
       @documents  = documents
@@ -15,7 +17,7 @@ module Clustering
     end
     
     def tokens
-      @documents.map(&:tokens).reduce(&:|)
+      Array @documents.map(&:tokens).reduce(&:|)
     end
     
     # largest cluster first
@@ -24,11 +26,11 @@ module Clustering
     end
     
     def hashtags
-      @documents.map(&:hashtags).reduce(&:|)
+      Array @documents.map(&:hashtags).reduce(&:|)
     end
     
     def media_urls
-      @documents.map(&:media_urls).reduce(&:|)
+      Array @documents.map(&:media_urls).reduce(&:|)
     end
     
     def has_media?
@@ -36,7 +38,7 @@ module Clustering
     end
     
     def urls
-      @documents.map(&:expanded_urls).reduce(&:|)
+      Array @documents.map(&:expanded_urls).reduce(&:|)
     end
     
     def url
