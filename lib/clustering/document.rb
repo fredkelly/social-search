@@ -2,6 +2,8 @@ module Clustering
   # extends Tweet class to add clustering specific operations
   class Document < Twitter::Tweet
     
+    alias_method :to_s, :text
+    
     # splits tweet text into tokens
     def tokens
       return @tokens unless @tokens.nil?

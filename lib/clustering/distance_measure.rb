@@ -1,13 +1,13 @@
 module Clustering
   class DistanceMeasure
     
-    def initialize(measure)
+    def initialize(measure = nil)
       @measure = measure || :normalised_levenshtein
     end
     
     def distance(*args)
       args.map(&:class).each do |klass|
-        raise '#{__method__}: given #{klass}, expected an Enumerable' unless klass.include?(Enumerable)
+        raise "#{__method__}: given #{klass}, expected an Enumerable" unless klass.include?(Enumerable)
       end
       self.class.send(@measure, *args)
     end
