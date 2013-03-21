@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   before_filter :current_session
   
   # show error messages
-  
   class Error < RuntimeError; end
   rescue_from Error, with: :flash_error
   
@@ -18,6 +17,7 @@ class ApplicationController < ActionController::Base
   
   # Get the current user's Session record based on session_id
   def current_session
+    return if request.session.blank?
     @current_session ||= Session.find_or_create_by_request(request)
   end
   
