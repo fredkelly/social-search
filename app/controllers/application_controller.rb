@@ -6,12 +6,14 @@ class ApplicationController < ActionController::Base
   
   # show error messages
   
-  rescue_from Exception, with: :flash_error
+  class Error < RuntimeError; end
+  rescue_from Error, with: :flash_error
   
   private
   
   def flash_error(error)
-    flash.now[:error] = "Sorry, an error occurred." + (Rails.env.production? ? "" : " (#{error})")
+    flash[:error] = "Sorry, an error occurred - #{error}"
+    redirect_to(root_url)
   end
   
   # Get the current user's Session record based on session_id
