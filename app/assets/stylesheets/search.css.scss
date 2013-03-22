@@ -85,11 +85,9 @@ and (max-device-width : 480px) {
       font-weight: bold;
     }
 	}
-  
-  /* hide models on iOS (hack) */
-  a.modal-link {
-    display: none;
-  }
+	.modal {
+		max-width: none;
+	}
 }
 
 #header, #content, #navigation, #footer {

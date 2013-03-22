@@ -19,6 +19,7 @@ gem 'statistics'
 gem 'geocoder'
 gem 'profanity_filter'
 gem 'fancybox-rails'
+gem 'engtagger', github: 'fredkelly/engtagger', require: false
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'

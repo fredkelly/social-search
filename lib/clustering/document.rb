@@ -6,9 +6,7 @@ module Clustering
     
     # splits tweet text into tokens
     def tokens
-      return @tokens unless @tokens.nil?
-      tokeniser = Tokeniser.new(lang: iso_language_code, remove_stopwords: true, stem: true)
-      @tokens = tokeniser.tokenise(text)
+      @tokens ||= Tokeniser.instance.tokenise(text)
     end
     
     def text

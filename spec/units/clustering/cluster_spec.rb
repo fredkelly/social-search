@@ -7,13 +7,13 @@ describe Clustering::Cluster do
   
   it 'should randomly pick centroid if not supplied' do
     documents = ('a'..'z').to_a
-    cluster = Clustering::Cluster.new(documents, nil)
+    cluster = Clustering::Cluster.new(documents)
     documents.should include(cluster.centroid)
   end
   
   it 'should compare based on cluster size (in reverse)' do
     a, b, = Clustering::Cluster.new((1..5).to_a), Clustering::Cluster.new((1..10).to_a)
-    (a > b).should be_true
+    (a <=> b).should eq(1)
   end
   
   it 'should be tokenisable' do

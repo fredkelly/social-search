@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/fredkelly/engtagger.git
+  revision: 37119fd18d6cb9af97381ca47228f36d70e68202
+  specs:
+    engtagger (0.1.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -203,6 +209,7 @@ DEPENDENCIES
   awesome_print
   bourbon
   coffee-rails (~> 3.2.1)
+  engtagger!
   fancybox-rails
   fast-stemmer
   geocoder

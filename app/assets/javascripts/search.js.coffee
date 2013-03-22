@@ -9,9 +9,6 @@ jQuery ->
 		prefetch: './search/recents.json'
 		limit: 10
 	)
-
-	# retina images
-	$('img').hisrc()
 	
 	$('a.modal-link').fancybox(
     onComplete: ->
@@ -26,6 +23,12 @@ jQuery ->
   $('.thumbs a').fancybox(
     type: 'image'
   )
+
+	# retina images (hisrc patch)
+	if window.devicePixelRatio >= 2
+		$('img').each (i, img) ->
+			if big = $(img).attr('data-2x')
+				$('img').attr('src', big)
 
 # show loader for turbolinks
 $(document)

@@ -16,4 +16,9 @@ module ApplicationHelper
   def image_url(source)
     URI.join(root_url, image_path(source))
   end
+  
+  def page_title(prefix = nil)
+    prefix ||= (@search.query unless @search.nil?)
+    (prefix.blank? ? "" : "#{prefix} | ") + "Social Search"
+  end
 end

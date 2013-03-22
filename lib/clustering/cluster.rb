@@ -6,9 +6,7 @@ module Clustering
     
     extend Forwardable
     def_delegator :@documents, :size
-    
-    include Comparable
-    
+        
     # sets up cluster either with provided centroid or randomly selected one
     def initialize(documents, centroid = nil, options = {})
       @documents  = documents

@@ -34,7 +34,7 @@ module Clustering
                 
         if min_delta < DELTA_THRESHOLD
           # merge closest two clusters
-          clusters << Cluster.new(left.documents + right.documents)
+          clusters << Cluster.new(left.documents + right.documents, nil)
           clusters.delete(left); clusters.delete(right)
         else
           break
@@ -48,7 +48,9 @@ module Clustering
     def cluster_sorted(clusters)
       
       # start with everything in it's own cluster
-      clusters = @documents.map{|d| Cluster.new([d])}
+      clusters = @documents.map{|d| Cluster.new([d], nil)}
+      
+      debug clusters.size
       
       while clusters.size > 1
         # closest pair of clusters clusters
@@ -58,7 +60,7 @@ module Clustering
           debug "Merging clusters\n\t#{left}\n\t#{right}"
           
           # merge closest two clusters
-          clusters << Cluster.new(left.documents + right.documents)
+          clusters << Cluster.new(left.documents + right.documents, nil)
           clusters.delete(left); clusters.delete(right)
         else
           debug "Threshold reached (#{delta}), ending clustering."
