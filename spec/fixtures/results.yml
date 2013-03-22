@@ -3,6 +3,7 @@
 google:
   url: http://google.co.uk/
   search_id: 1
+  title: Google
   description: Was once the no.1 search engine before the introduction of Soci-Search.
   selected_at: 2013-01-30 19:57:12
   position: 1
@@ -11,6 +12,7 @@ google:
 bing:
   url: http://bing.com/
   search_id: 1
+  title : Bing
   description: Was never very good.
   selected_at: 2013-01-30 19:59:12
   position: 2
@@ -19,6 +21,7 @@ bing:
 yahoo:
   url: http://yahoo.com/
   search_id: 1
+  title: Yahoo!
   description: Not really in existence any more!
   selected_at: 2013-01-30 20:01:12
   position: 3
