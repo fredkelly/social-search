@@ -74,7 +74,7 @@ class Result < ActiveRecord::Base
   
   # convert to constant
   def source_engine
-    super.constantize
+    super.constantize rescue super
   end
   
   # store as string
